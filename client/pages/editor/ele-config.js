@@ -11,6 +11,26 @@ export default [
         defaultStyle: {
           height: 40
         }
+      },
+      {
+        // 组件名称，与组件库名称一致
+        elName: 'h-text',
+        title: '文字',
+        icon: 'iconfont iconwenben',
+        // 给每个组件配置默认样式
+        defaultStyle: {
+          height: 40
+        }
+      },
+      {
+        // 组件名称，与组件库名称一致
+        elName: 'h-text',
+        title: '文字',
+        icon: 'iconfont iconwenben',
+        // 给每个组件配置默认样式
+        defaultStyle: {
+          height: 40
+        }
       }
     ]
   },

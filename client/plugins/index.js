@@ -21,8 +21,17 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
 
+let regist_components_obj = {}
+components.forEach(item => {
+  regist_components_obj[item.name] = item
+})
+
+export {
+  Text,
+  regist_components_obj
+}
+
 export default {
   install,
   // 所有组件，必须具有install，才能使用Vue.use()
-  Text
 }
