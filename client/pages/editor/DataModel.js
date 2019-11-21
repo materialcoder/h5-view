@@ -71,7 +71,7 @@ let projectConfig = {
 }
 
 /**
- * 获取组件配置
+ * 获取组件元素配置
  * @param {传入的组件} element
  * @param {扩展样式} extendStyle 
  */
@@ -124,9 +124,31 @@ let getProjectConfig = () => {
   return { ...project }
 }
 
+/**
+ * 获取元素样式
+ * @param {Object} styleObj 
+ * @param {Number} scalingRatio 缩放比例 
+ */
+let getCommonStyle = (styleObj, scalingRatio = 1) => {
+  // 需要单位的属性
+  let needUnitAttr = ['width', 'height', 'top', 'left', 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom', 'marginTop', 'marginLeft', 'marginRight', 'marginBottom', 'borderWidth', 'fontSize', 'borderRadius', 'letterSpacing']
+  let style = {}
+  for (let key in styleObj) {
+    if (needUnitAttr.includes(key)) {
+      style[key] = (styleObj[key] * scalingRatio) + 'px'
+    } else {
+      style[key] = styleObj[key]
+    }
+  }
+  style.transform = `rotate(${style.rotate}deg)`
+  style.backgroundImage = style.backgroundImage ? `url(${style.backgroundImage})` : ''
+  return style
+}
+
 export default {
   elementConfig,
   pageConfig,
   getElementConfig,
-  getProjectConfig
+  getProjectConfig,
+  getCommonStyle
 }

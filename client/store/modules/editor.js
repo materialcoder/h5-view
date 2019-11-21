@@ -49,6 +49,14 @@ const actions = {
     commit('setActiveElementUUID', '')
   },
   /**
+   * 设置当前选中元素uuid
+   * @param commit
+   * @param uuid 
+   */
+  setActiveElementUUID({commit}, uuid) {
+    commit('setActiveElementUUID', uuid)
+  },
+  /**
    * 添加元素
    * @param commit
    * @param elData 
@@ -96,6 +104,8 @@ const mutations = {
    */
   addElement(state, elData) {
     console.log(state, elData)
+    let index = state.projectData.pages.findIndex(v => {return v.uuid === state.activePageUUID})
+    state.projectData.pages[index].elements.push(elData)
   }
 }
 
@@ -109,6 +119,28 @@ const getters = {
       return {commonStyle: {}, config: {}}
     }
     return state.projectData.pages.find(v => {return v.uuid === state.activePageUUID})
+  },
+  /**
+   * 当前选中页面的index索引
+   */
+  currentPageIndex() {
+    if (!state.projectData.pages) {
+      return -1
+    }
+    return state.projectData.pages.findIndex(v => v.uuid === state.activePageUUID)
+  },
+  /**
+   * 当前页面选中element索引index
+   */
+  currentElementIndex() {
+    if (!state.projectData.pages) {
+      return -1
+    }
+    let currentPageIndex = state.projectData.pages.findIndex(v => v.uuid === state.activePageUUID)
+    if (currentPageIndex === -1) {
+      return -1
+    }
+    return state.projectData.pages[currentPageIndex].elements.findIndex(v => v.uuid === state.activeElementUUID)
   }
 }
 

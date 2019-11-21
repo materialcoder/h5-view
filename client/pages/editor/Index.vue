@@ -87,6 +87,7 @@ export default {
   .page-editor-main {
     background-color: #ddd;
     flex: 1;
+    overflow: hidden;
   }
 }
 </style>
