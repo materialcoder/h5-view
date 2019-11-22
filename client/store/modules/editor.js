@@ -114,11 +114,25 @@ const getters = {
    * 当前选中的页面
    */
   activePage() {
-    // 如果不存在页面返回-1
+    // 如果不存在页面返回空
     if (!state.projectData.pages || !state.activePageUUID) {
       return {commonStyle: {}, config: {}}
     }
     return state.projectData.pages.find(v => {return v.uuid === state.activePageUUID})
+  },
+  /**
+   * 当前选中元素
+   */
+  activeElement() {
+    // 如果不存在页面返回空
+    if (!state.projectData.pages) {
+      return {commonStyle: {}, propsValue: {}}
+    }
+    let currentPageIndex = state.projectData.pages.findIndex(v => v.uuid === state.activePageUUID)
+    if (currentPageIndex === -1) {
+      return {commonStyle: {}, propsValue: {}}
+    }
+    return state.projectData.pages[currentPageIndex].elements.find(v => v.uuid === state.activeElementUUID)
   },
   /**
    * 当前选中页面的index索引

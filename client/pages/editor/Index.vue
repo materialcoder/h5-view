@@ -19,25 +19,39 @@
       <editPanel></editPanel>
     </div>
     <!-- 属性编辑区 -->
-    <div class="page-editor-attr-wrapper">attr</div>
+    <div class="page-editor-attr-wrapper">
+      <el-tabs v-model="activeAttrTab" stretch>
+        <el-tab-pane name="属性" label="属性">
+          <attr-edit></attr-edit>
+        </el-tab-pane>
+        <el-tab-pane name="事件" label="事件">
+          <event-edit></event-edit>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
 <script>
 import componentLists from './components/componentLists/Index.vue'
-import pageManage from './components/pageManage/Index.vue'
-import templateLibs from './components/templateLibs/Index.vue'
+import pageManage from './components/page-manage'
+import templateLibs from './components/template-libs'
 import editPanel from './components/editPanel/Index'
+import attrEdit from './components/attr-configure/attr-edit'
+import eventEdit from './components/attr-configure/event-edit'
 export default {
   components: {
     componentLists,
     pageManage,
     templateLibs,
-    editPanel
+    editPanel,
+    attrEdit,
+    eventEdit
   },
   data() {
     return {
       activeSidebar: 'componentLists',
+      activeAttrTab: '属性',
       sidebarMenus: [
         {
           label: '组件列表',
@@ -82,7 +96,11 @@ export default {
     width: 255px;
   }
   .page-editor-attr-wrapper {
-    width: 300px;
+    width: 350px;
+    padding: 10px;
+    .el-tab-pane {
+      padding: 0 20px;
+    }
   }
   .page-editor-main {
     background-color: #ddd;
