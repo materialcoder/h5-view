@@ -64,11 +64,18 @@
           <p class="label">边框：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="borderWidth" controls-position="right"></el-input-number>
-              <div class="attr-edit-input-des">尺寸</div>
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des mt7">尺寸</div>
             </div>
             <div class="attr-edit-input">
               <el-color-picker v-model="borderColor" size="mini"></el-color-picker>
+              <div class="attr-edit-input-des">颜色</div>
+            </div>
+            <div class="attr-edit-input mr0">
+              <el-select v-model="borderStyle" size="mini">
+                <el-option v-for="item in borderStyleList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+              </el-select>
+              <div class="attr-edit-input-des mt7">样式</div>
             </div>
           </div>
         </div>
@@ -91,6 +98,7 @@ export default {
       activeTop: 200,
       borderWidth: 0,
       borderColor: '',
+      borderStyle: '',
       value: 0,
       activeNames: ['1'],
       alignTypeList: [
@@ -140,6 +148,24 @@ export default {
           title: '高100%',
           icon: 'iconfont iconheight',
           type: 'h'
+        }
+      ],
+      borderStyleList: [
+        {
+          label: '实线',
+          value:'solid'
+        },
+        {
+          label: '虚线',
+          value:'dashed'
+        },
+        {
+          label: '点状',
+          value:'dotted'
+        },
+        {
+          label: '双线',
+          value:'double'
         }
       ]
     }
@@ -196,6 +222,9 @@ export default {
         .attr-edit-input-des {
           color: #999;
         }
+      }
+      .el-select .el-input .el-input__inner {
+        width: 90px;
       }
       .attr-edit-input .is-controls-right {
         width: 90px;

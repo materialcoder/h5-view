@@ -96,7 +96,7 @@ export default {
     width: 255px;
   }
   .page-editor-attr-wrapper {
-    width: 350px;
+    width: 380px;
     padding: 10px;
     .el-tab-pane {
       padding: 0 20px;
