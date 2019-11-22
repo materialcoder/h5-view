@@ -79,9 +79,61 @@
             </div>
           </div>
         </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">边框圆弧：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">上下边距：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">上</div>
+            </div>
+          </div>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">下</div>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">左右边距：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">左</div>
+            </div>
+          </div>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">右</div>
+            </div>
+          </div>
+        </div>
       </el-collapse-item>
       <el-collapse-item title="阴影样式：" name="3">
-        
+        <div class="attr-edit-item-wrapper">
+          <p class="label">左右边距：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">左</div>
+            </div>
+          </div>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">右</div>
+            </div>
+          </div>
+        </div>
       </el-collapse-item>
     </el-collapse>
   </div>
