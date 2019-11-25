@@ -77,7 +77,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 // .page-editor, .editor-sidebar, .el-tabs {
 //   height: 100%;
 // }
@@ -98,8 +98,16 @@ export default {
   .page-editor-attr-wrapper {
     width: 380px;
     padding: 10px;
+    .el-tabs {
+      height: 100%;
+      padding: 0 10px;
+      .el-tabs__content {
+        height: calc(100% - 55px);
+      }
+    }
     .el-tab-pane {
-      padding: 0 20px;
+      // padding: 0 20px;
+      height: 100%;
     }
   }
   .page-editor-main {

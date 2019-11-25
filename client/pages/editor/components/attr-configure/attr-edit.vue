@@ -33,6 +33,14 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .attr-edit-wrapper {
+    height: 100%;
+    .el-scrollbar__wrap {
+      overflow-x: auto;
+    }
+    .attr-edit-inner {
+      padding: 0 20px;
+    }
+  }
 </style>

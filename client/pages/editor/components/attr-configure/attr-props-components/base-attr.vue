@@ -119,18 +119,125 @@
         </div>
       </el-collapse-item>
       <el-collapse-item title="阴影样式：" name="3">
+        <!-- box-shadow: offset-X offset-Y blur-radius spread-radius color -->
+        <!-- offset-X 大于0 向左偏移 小于0 向右偏移  offset-Y 大于0向下偏移 小于0 向上偏移 -->
+        <!-- blur-radius 模糊半径值越大，模糊面积越大，阴影就越大越淡。 不能为负值。默认为0，此时阴影边缘锐利。 -->
+        <!-- spread-radius 扩展半径取正值时，阴影扩大；取负值时，阴影收缩。默认为0，此时阴影与元素同样大 -->
         <div class="attr-edit-item-wrapper">
-          <p class="label">左右边距：</p>
+          <p class="label">阴影位置：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
-              <div class="attr-edit-input-des">左</div>
+              <el-input-number size="mini" v-model="borderWidth" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">水平偏移量</div>
             </div>
           </div>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">垂直偏移量</div>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label"></p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
               <el-input-number size="mini" v-model="borderWidth" :min="0" controls-position="right"></el-input-number>
-              <div class="attr-edit-input-des">右</div>
+              <div class="attr-edit-input-des">模糊半径</div>
+            </div>
+          </div>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="borderWidth" controls-position="right"></el-input-number>
+              <div class="attr-edit-input-des">扩展半径</div>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">颜色：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-color-picker v-model="borderColor" size="mini"></el-color-picker>
+            </div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="字体：" name="4">
+        <div class="attr-edit-item-wrapper">
+          <p class="label">字体大小：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="fontSize" controls-position="right" :min="0"></el-input-number>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">字体粗细：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="fontWeight" controls-position="right" :min="0"></el-input-number>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">行间距：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="lineHeight" controls-position="right" :min="0"></el-input-number>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">字间距：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="letterSpacing" controls-position="right" :min="0"></el-input-number>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper mb15">
+          <p class="label">对齐方式：</p>
+          <div class="position-attr-wrapper">
+            <div class="align-item" v-for="item in textAlignTypeList" :key="item.type"
+              @click="changeAlignType(item.type)"
+            >
+              <el-tooltip :content="item.title">
+                <i :class="item.icon"></i>
+              </el-tooltip>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">字体颜色：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-color-picker v-model="textColor" size="mini"></el-color-picker>
+            </div>
+          </div>
+        </div>
+      </el-collapse-item>
+      <el-collapse-item title="背景&&透明度：" name="5">
+        <div class="attr-edit-item-wrapper">
+          <p class="label">背景颜色：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-color-picker v-model="backgroundColor" size="mini"></el-color-picker>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">背景图片：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-color-picker v-model="backgroundImage" size="mini"></el-color-picker>
+            </div>
+          </div>
+        </div>
+        <div class="attr-edit-item-wrapper">
+          <p class="label">透明度：</p>
+          <div class="attr-edit-input-wrapper">
+            <div class="attr-edit-input">
+              <el-input-number size="mini" v-model="opacity" controls-position="right" :min="0" :max="1" :step="0.1"></el-input-number>
             </div>
           </div>
         </div>
@@ -151,6 +258,14 @@ export default {
       borderWidth: 0,
       borderColor: '',
       borderStyle: '',
+      fontSize: 16,
+      fontWeight: 500,
+      lineHeight: 1.4,
+      letterSpacing: 0,
+      textColor: '',
+      backgroundColor: '',
+      backgroundImage: '',
+      opacity: 1,
       value: 0,
       activeNames: ['1'],
       alignTypeList: [
@@ -219,6 +334,23 @@ export default {
           label: '双线',
           value:'double'
         }
+      ],
+      textAlignTypeList: [
+        {
+          title: '左对齐',
+          icon: 'iconfont iconzuoduiqi1',
+          type: 'left'
+        },
+        {
+          title: '居中对齐',
+          icon: 'iconfont iconjuzhongduiqi',
+          type: 'center'
+        },
+        {
+          title: '右对齐',
+          icon: 'iconfont iconyouduiqi1',
+          type: 'right'
+        }
       ]
     }
   },
@@ -270,7 +402,7 @@ export default {
     .attr-edit-input-wrapper {
       display: flex;
       .attr-edit-input {
-        margin: 4px 15px 4px 4px;
+        margin: 4px 8px 4px 4px;
         .attr-edit-input-des {
           color: #999;
         }
