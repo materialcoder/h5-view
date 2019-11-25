@@ -23,7 +23,7 @@ let elementConfig = {
     marginRight: 0,
     marginBottom: 0,
     borderWidth: 0,
-    borderColor: '',
+    borderColor: '#000000',
     borderStyle: 'solid',
     borderRadius: 0,
     boxShadow: '',

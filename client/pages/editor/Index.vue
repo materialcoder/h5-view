@@ -29,6 +29,8 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!-- 选择图片弹窗 -->
+    <image-libs/>
   </div>
 </template>
 
@@ -37,8 +39,11 @@ import componentLists from './components/componentLists/Index.vue'
 import pageManage from './components/page-manage'
 import templateLibs from './components/template-libs'
 import editPanel from './components/editPanel/Index'
+// 属性编辑相关组件
 import attrEdit from './components/attr-configure/attr-edit'
 import eventEdit from './components/attr-configure/event-edit'
+
+import imageLibs from '@client/components/image-libs'
 export default {
   components: {
     componentLists,
@@ -46,7 +51,8 @@ export default {
     templateLibs,
     editPanel,
     attrEdit,
-    eventEdit
+    eventEdit,
+    imageLibs
   },
   data() {
     return {
@@ -96,7 +102,8 @@ export default {
     width: 255px;
   }
   .page-editor-attr-wrapper {
-    width: 380px;
+    width: 400px;
+    min-width: 400px;
     padding: 10px;
     .el-tabs {
       height: 100%;
@@ -114,6 +121,7 @@ export default {
     background-color: #ddd;
     flex: 1;
     overflow: hidden;
+    min-width: 500px;
   }
 }
 </style>

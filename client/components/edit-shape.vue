@@ -73,8 +73,8 @@ export default {
         }
       }
       const style = {
-        marginLeft: '-6px',
-        marginTop: '-6px',
+        marginLeft: '-5px',
+        marginTop: '-5px',
         left: `${newLeft > 0 ? newLeft : 0}px`,
         top: `${newTop > 0 ? newTop : 0}px`,
         cursor: point.split('').reverse().map(m => this.directionKey[m]).join('') + '-resize'

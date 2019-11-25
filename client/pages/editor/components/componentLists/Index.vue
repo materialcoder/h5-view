@@ -85,10 +85,11 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
     .component-lib-item {
-      width: 75px;
+      width: 96px;
       padding: 10px;
       margin: 10px 15px 10px 5px;
       font-size: 14px;
+      text-align: center;
       background-color: #eee;
       border: 1px solid #ddd;
       cursor: pointer;

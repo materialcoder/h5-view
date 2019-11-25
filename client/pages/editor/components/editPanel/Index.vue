@@ -15,6 +15,11 @@
           <component :is="item.elName" class="element-on-edit-panel" v-bind="{...item.propsValue, value: item.value}"></component>
         </edit-shape>
       </div>
+      <div class="page-wrapper-operation-menu">
+        <el-tooltips v-for="(item, index) in menuOperations" :key="index" effect="dark" :content="item.title">
+          <i :class="item.icon"></i>
+        </el-tooltips>
+      </div>
       <div class="page-wrapper-mask"></div>
     </div>
   </div>
@@ -28,11 +33,54 @@ import {regist_components_obj} from '@client/plugins/index'
 export default {
   data() {
     return {
-      getCommonStyle: editorProjectConfig.getCommonStyle
-      // projectData: {
-      //   width: 400,
-      //   height: 650
-      // }
+      getCommonStyle: editorProjectConfig.getCommonStyle,
+      menuOperations: [
+        {
+          title: '复制',
+          icon: '',
+          value: 'copy'
+        },
+        {
+          title: '删除',
+          icon: '',
+          value: 'delete'
+        },
+        {
+          title: '字体放大',
+          icon: '',
+          value: 'fontA+'
+        },
+        {
+          title: '字体缩小',
+          icon: '',
+          value: 'fontA-'
+        },
+        {
+          title: '字体加粗',
+          icon: '',
+          value: 'fontB'
+        },
+        {
+          title: '图层上移',
+          icon: '',
+          value: 'layerUp'
+        },
+        {
+          title: '图层下移',
+          icon: '',
+          value: 'layerDown'
+        },
+        {
+          title: '图层置顶',
+          icon: '',
+          value: 'layerTop'
+        },
+        {
+          title: '图层置底',
+          icon: '',
+          value: 'layerBottom'
+        }
+      ]
     }
   },
   components: {

@@ -15,6 +15,7 @@ const state = {
   historyCache: [],
   // redo undo 指针
   currentHistoryIndex: -1,
+  // 属性编辑中展开的页签
   activeAttrEditorCollapse: ['1']
 }
 
@@ -106,6 +107,14 @@ const mutations = {
     console.log(state, elData)
     let index = state.projectData.pages.findIndex(v => {return v.uuid === state.activePageUUID})
     state.projectData.pages[index].elements.push(elData)
+  },
+  /**
+   * 保存展开的页签状态
+   * @param state 
+   * @param data 
+   */
+  updateAttrEditCollapse(state, data) {
+    state.activeAttrEditorCollapse = data
   }
 }
 

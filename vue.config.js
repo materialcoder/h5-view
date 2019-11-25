@@ -1,6 +1,10 @@
 const path = require('path')
 
-module.exports = {    
+module.exports = {
+  devServer: {
+    port: 8088,
+    disableHostCheck: true
+  },
   pages: {        
     index: {            
       entry: "client/main.js"        
@@ -23,6 +27,5 @@ module.exports = {    
         // 修改它的选项...
         return options
       })
-    config.devServer.port(8088)
   }
 }
