@@ -145,10 +145,22 @@ let getCommonStyle = (styleObj, scalingRatio = 1) => {
   return style
 }
 
+let copyElement = (element, extendStyle = {}) => {
+  element = cloneDeep(element)
+  element.uuid = createUUID()
+  element.commonStyle = merge(element.commonStyle, extendStyle)
+
+  // 偏移一点位置已做区分
+  element.commonStyle.top += 10
+  element.commonStyle.left += 10
+  return element
+}
+
 export default {
   elementConfig,
   pageConfig,
   getElementConfig,
   getProjectConfig,
-  getCommonStyle
+  getCommonStyle,
+  copyElement
 }

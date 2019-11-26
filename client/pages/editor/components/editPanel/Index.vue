@@ -15,10 +15,12 @@
           <component :is="item.elName" class="element-on-edit-panel" v-bind="{...item.propsValue, value: item.value}"></component>
         </edit-shape>
       </div>
-      <div class="page-wrapper-operation-menu">
-        <el-tooltips v-for="(item, index) in menuOperations" :key="index" effect="dark" :content="item.title">
-          <i :class="item.icon"></i>
-        </el-tooltips>
+      <div class="page-wrapper-operation-menu" v-if="activeElementUUID">
+        <el-tooltip v-for="(item, index) in menuOperations" :key="index" effect="dark" :content="item.title" placement="right">
+          <div class="menu-item menu-panel-item" @click="handleElementCommand(item.value)">
+            <i class="menu-panel-item" :class="item.icon"></i>
+          </div>
+        </el-tooltip>
       </div>
       <div class="page-wrapper-mask"></div>
     </div>
@@ -37,47 +39,47 @@ export default {
       menuOperations: [
         {
           title: '复制',
-          icon: '',
+          icon: 'iconfont iconcopy',
           value: 'copy'
         },
         {
           title: '删除',
-          icon: '',
+          icon: 'iconfont icontrash-gray',
           value: 'delete'
         },
         {
           title: '字体放大',
-          icon: '',
+          icon: 'iconfont iconfangdaziti',
           value: 'fontA+'
         },
         {
           title: '字体缩小',
-          icon: '',
+          icon: 'iconfont iconsuoxiaoziti',
           value: 'fontA-'
         },
         {
           title: '字体加粗',
-          icon: '',
+          icon: 'iconfont iconzitijiacu',
           value: 'fontB'
         },
         {
           title: '图层上移',
-          icon: '',
+          icon: 'iconfont icontucengshangyi',
           value: 'layerUp'
         },
         {
           title: '图层下移',
-          icon: '',
+          icon: 'iconfont icontucengxiayi',
           value: 'layerDown'
         },
         {
           title: '图层置顶',
-          icon: '',
+          icon: 'iconfont icontucengzhiding',
           value: 'layerTop'
         },
         {
           title: '图层置底',
-          icon: '',
+          icon: 'iconfont icontucengzhidi',
           value: 'layerBottom'
         }
       ]
@@ -103,6 +105,9 @@ export default {
     ])
   },
   methods: {
+    handleElementCommand(type) {
+      this.$store.dispatch('elementCommand', type)
+    },
     handleElementClick(uuid) {
       this.$store.dispatch('setActiveElementUUID', uuid)
     },
@@ -119,9 +124,9 @@ export default {
       // 下面这句其实没什么左右，已经自动更新了
       this.projectData.pages[this.currentPageIndex].elements[this.currentElementIndex].commonStyle = {...pos}
     },
-    // 点击画布
+    // 点击画布和操作条时不取消选中状态
     handleClickCanvas(e) {
-      if (!e.target.classList.contains('element-on-edit-panel')) {
+      if (!e.target.classList.contains('element-on-edit-panel') && !e.target.classList.contains('menu-panel-item')) {
         this.$store.dispatch('setActiveElementUUID', '')
       }
     }
@@ -147,6 +152,29 @@ export default {
           width: 100%;
           height: 100%;
           overflow: hidden;
+        }
+      }
+      .page-wrapper-operation-menu{
+        position: absolute;
+        right: -70px;
+        top: 30px;
+        display: flex;
+        flex-direction: column;
+        z-index: 1002;
+        background-color: #fff;
+        border-radius: 4px;
+        .el-tooltip {
+          width: 50px;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          cursor: pointer;
+          &:hover {
+            background-color: #ddd;
+          }
+          i {
+            font-size: 20px;
+          }
         }
       }
       .page-wrapper-mask {

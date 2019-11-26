@@ -175,7 +175,7 @@
           <p class="label">字体粗细：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.fontWeight" controls-position="right" :min="0"  :step="100"></el-input-number>
+              <el-input-number size="mini" v-model="activeElement.commonStyle.fontWeight" controls-position="right" :min="300"  :step="100"></el-input-number>
             </div>
           </div>
         </div>
