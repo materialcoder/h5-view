@@ -1,10 +1,20 @@
 const path = require('path')
 
+const devServer = {
+  port: 8088,
+  disableHostCheck: true,
+  proxy: {
+    '/': {
+      target: 'http://localhost:4000',
+      ws: false,
+      changeOrigin: true,
+      pathRewrite: {}
+    }
+  }
+}
+
 module.exports = {
-  devServer: {
-    port: 8088,
-    disableHostCheck: true
-  },
+  devServer: devServer,
   // 输出文件目录
   assetsDir: 'static',
   pages: {        
