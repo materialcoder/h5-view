@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <script src="/third-libs/vue.js"></script>
+  <link rel="stylesheet" href="/third-libs/animate.min.css">
+  <link rel="stylesheet" href="/third-libs/swiper.min.css">
+  <script src="/third-libs/swiper.min.js"></script>
+
+  <!-- 引入模板 -->
+  <script src="/engine_libs/h5-swiper/page-engine.umd.js"></script>
+  <link rel="stylesheet" href="/engine_libs/h5-swiper/page-engine.css">
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    html, body, #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+  <script>
+    window._pageData = <%- JSON.stringify(pageData) %>
+  </script>
+</head>
+<body>
+  <div id="app">
+    <engine-h5-swiper/>
+  </div>
+  <script>
+    new Vue({
+      el: '#app'
+    })
+  </script>
+  <script>
+    // 判断翻页类型
+    var direction = _pageData.flipType === 0 ? 'vertical' : 'horizontal'
+    var showSlideNumber = !!_pageData.slideNumber
+    new Swiper('.swiper-container', {
+      direction,
+      loop: false,
+      pagination: showSlideNumber ? {el: '.swiper-pagination'} : {},
+      scrollbar: {
+        el: '.swiper-scrollbar'
+      }
+    })
+  </script>
+</body>
+</html>

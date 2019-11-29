@@ -5,9 +5,12 @@ module.exports = {
     port: 8088,
     disableHostCheck: true
   },
+  // 输出文件目录
+  assetsDir: 'static',
   pages: {        
     index: {            
-      entry: "client/main.js"        
+      entry: "client/main.js",
+
     }    
   },
   // 扩展 webpack 配置
