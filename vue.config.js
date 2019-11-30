@@ -1,7 +1,7 @@
 const path = require('path')
 
 const devServer = {
-  port: 8088,
+  // port: 8088,
   disableHostCheck: true,
   proxy: {
     '/': {

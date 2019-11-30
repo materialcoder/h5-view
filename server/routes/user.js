@@ -47,4 +47,11 @@ router.post('/login', async ctx => {
 	}
 })
 
+// 用户信息
+router.get('/info', async ctx => {
+  console.log(ctx.state.user)
+  let _id = ctx.state.user._id
+  ctx.body = await Users.findOne({_id}).select('username email avatar roles').exec()
+})
+
 module.exports = router

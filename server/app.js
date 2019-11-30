@@ -43,11 +43,20 @@ render(app, {
   debug: false
 })
 
+// 认证授权
+app.use(koajwt({secret: SECRET}).unless({
+  // 登录注册接口不需要验证
+  path: [
+    /^\/user\/login/,
+    /^\/user\/register/
+  ]
+}))
+
 // 设置全局变量
 router.use(async (ctx, next) => {
   // token解密 将token里的用户信息赋值到全局变量中
   let token = ctx.header.authorization
-  if (token) {
+  if (token && token !== 'undefined') {
     ctx.state.user = jsonwebtoken.verify(token.split(' ')[1], SECRET)
   }
   // 全局变量

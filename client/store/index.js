@@ -3,6 +3,8 @@ import Vuex from "vuex";
 
 // 各个模板
 import editor from './modules/editor'
+import user from './modules/user'
+import { Message } from "element-ui"
 
 // 全局状态管理
 const state = {
@@ -10,7 +12,12 @@ const state = {
 }
 
 const actions = {
-
+  showMessage(store, msg) {
+    Message({
+      type: msg.type,
+      message: msg.message || msg.data
+    })
+  }
 }
 
 const mutations = {
@@ -29,6 +36,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
-    editor
+    editor,
+    user
   }
 });

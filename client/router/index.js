@@ -23,6 +23,16 @@ const routes = [
     path: '/editor',
     name: 'editor',
     component:() => import("@/pages/editor/Index.vue")
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/pages/login'),
+    meta: {
+      hideHeader: true,
+      trust: true,
+      noNeedLogin: true
+    }
   }
 ];
 
