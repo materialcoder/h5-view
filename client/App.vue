@@ -1,13 +1,26 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/editor">Editor</router-link>
-    </div> -->
+    <div class="app-header" v-show="!$route.meta.hideHeader">
+      <page-header :userData="userData"></page-header>
+    </div>
     <router-view />
   </div>
 </template>
+
+<script>
+  import pageHeader from '@/components/page-header'
+  import {mapGetters} from 'vuex'
+  export default {
+    components: {
+      pageHeader
+    },
+    computed: {
+      ...mapGetters([
+        'userData'
+      ])
+    }
+  }
+</script>
 
 <style lang="scss">
 html, body {
@@ -21,18 +34,13 @@ html, body {
   // text-align: center;
   color: #2c3e50;
   height: 100%;
+  padding-top: 48px;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.app-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
 }
 </style>

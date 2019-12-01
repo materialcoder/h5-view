@@ -23,6 +23,14 @@ const actions = {
   updateUserInfo({commit}, data) {
     commit('updateUserInfo', data)
     sessionStorage.setItem('userData', JSON.stringify(data))
+  },
+  /**
+   * 退出登录
+   * @param param0 
+   */
+  logout({commit}) {
+    commit('logout')
+    sessionStorage.clear()
   }
 }
 
@@ -42,12 +50,19 @@ const mutations = {
    */
   updateUserInfo(state, data) {
     state.userData = {...data}
+  },
+  /**
+   * 退出登录
+   * @param state 
+   */
+  logout(state) {
+    state.token = ''
   }
 }
 
 const getters = {
   userData(state) {
-    return state.userData
+    return state.userData.username ? state.userData : (JSON.parse(sessionStorage.getItem('userData')) || {})
   },
   authorization(state) {
     return state.token ? 'Bearer ' + state.token : ''
