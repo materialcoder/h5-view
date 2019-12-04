@@ -1,5 +1,5 @@
 <template>
-  <div class="page-editor editor-wrapper">
+  <div class="page-editor editor-wrapper" v-loading="loading">
     <!-- 左侧导航 -->
     <div class="editor-sidebar">
       <el-tabs tab-position="left" v-model="activeSidebar">
@@ -56,6 +56,8 @@ export default {
   },
   data() {
     return {
+      id: '', //当前页面id
+      loading: false,
       activeSidebar: 'componentLists',
       activeAttrTab: '属性',
       sidebarMenus: [
@@ -79,6 +81,24 @@ export default {
   },
   created() {
     this.$store.dispatch('initProjectData')
+    this.id = this.$route.query.id
+    this.initPageData()
+  },
+  methods: {
+    initPageData() {
+      this.loading = true
+      this.$axios.get(`/page/detail/${this.id}`).then(res => {
+        console.log(res)
+        this.loading = false
+        if (res.code === 200) {
+          this.$store.dispatch('initProjectData', {
+            ...res.body
+          })
+        }
+      }).catch(() => {
+        this.loading = false
+      })
+    }
   }
 }
 </script>

@@ -1,4 +1,6 @@
 const router = require('koa-router')()
+const mongoose = require('mongoose')
+const Page = require('../models/page')
 
 // 访问预览页面
 router.get('/view/:id', async ctx => {
@@ -8,6 +10,34 @@ router.get('/view/:id', async ctx => {
     'h5': 'h5-swiper'
   }
   await ctx.render(pageMode[page.pageMode], {pageData: page})
+})
+
+// 创建页面
+router.post('/add', async ctx => {
+  let data = ctx.request.body
+  let author = ctx.state.user._id
+  ctx.body = await Page.create({
+    ...data,
+    author: author,
+    _id: mongoose.mongo.ObjectId()
+  })
+})
+
+// 查找某一页面数据
+router.get('/detail/:_id', async ctx => {
+  let _id = mongoose.mongo.ObjectId(ctx.params._id)
+  ctx.body = await Page.findOne({_id})
+})
+
+// 获取所有pages
+router.get('/myPages', async ctx => {
+  let author = ctx.state.user._id
+  author = mongoose.mongo.ObjectId(author)
+  if (ctx.query.type === 'share') {
+    ctx.body = await Page.find({isTemplate: {$ne: true}, members: {$elemMatch: {$in: author}}})
+    return
+  }
+  ctx.body = await Page.find({author: author}).ne('isTemplate', true)
 })
 
 module.exports = router
