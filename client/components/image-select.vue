@@ -52,8 +52,8 @@ export default {
     .image-select-l {
       margin-right: 10px;
       .image-select-inner {
-        width: 96px;
-        height: 96px;
+        width: 95px;
+        height: 95px;
         border: 1px dashed #ccc;
         background-color: #eee;
         display: flex;

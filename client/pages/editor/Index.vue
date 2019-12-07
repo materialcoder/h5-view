@@ -16,6 +16,12 @@
     </div>
     <!-- 编辑区 -->
     <div class="page-editor-main">
+      <div class="control-bar-wrapper">
+        <control-bar
+          @save="saveFn"
+          @cancel="cancelFn"
+        ></control-bar>
+      </div>
       <editPanel></editPanel>
     </div>
     <!-- 属性编辑区 -->
@@ -39,17 +45,22 @@ import componentLists from './components/componentLists/Index.vue'
 import pageManage from './components/page-manage'
 import templateLibs from './components/template-libs'
 import editPanel from './components/editPanel/Index'
+// 顶部操作栏
+import controlBar from './components/control-bar'
 // 属性编辑相关组件
 import attrEdit from './components/attr-configure/attr-edit'
 import eventEdit from './components/attr-configure/event-edit'
 
 import imageLibs from '@client/components/image-libs'
+
+import {mapState} from 'vuex'
 export default {
   components: {
     componentLists,
     pageManage,
     templateLibs,
     editPanel,
+    controlBar,
     attrEdit,
     eventEdit,
     imageLibs
@@ -84,6 +95,11 @@ export default {
     this.id = this.$route.query.id
     this.initPageData()
   },
+  computed: {
+    ...mapState({
+      projectData: state => state.editor.projectData
+    })
+  },
   methods: {
     initPageData() {
       this.loading = true
@@ -98,6 +114,24 @@ export default {
       }).catch(() => {
         this.loading = false
       })
+    },
+    // 保存
+    saveFn() {
+      this.$axios.post('page/update/' + this.id, this.projectData).then((res) => {
+        if (res.code === 200) {
+          this.$message.success('保存成功！')
+        }
+      })
+    },
+    // 退出
+    cancelFn() {
+      this.$confirm('确认退出编辑吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$router.push('/page-list')
+      }).catch(() => {})
     }
   }
 }
@@ -140,8 +174,17 @@ export default {
   .page-editor-main {
     background-color: #ddd;
     flex: 1;
-    overflow: hidden;
     min-width: 500px;
+    position: relative;
+    .control-bar-wrapper {
+      position: absolute;
+      top: -44px;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      height: 44px;
+      text-align: center;
+    }
   }
 }
 </style>

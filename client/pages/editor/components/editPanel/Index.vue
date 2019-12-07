@@ -140,6 +140,7 @@ export default {
     height: 100%;
     box-sizing: border-box;
     padding: 20px;
+    overflow: auto;
     .edit-main {
       background-color: #fff;
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZAgMAAAC5h23wAAAAAXNSR0IB2cksfwAAAAlQTFRF9fX18PDwAAAABQ8/pgAAAAN0Uk5T/yIA41y2EwAAABhJREFUeJxjYIAC0VAQcGCQWgUCDUONBgDH8Fwzu33LswAAAABJRU5ErkJggg==");

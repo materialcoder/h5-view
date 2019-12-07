@@ -21,7 +21,7 @@ const schema = new Schema({
   },
   width: {type: Number, default: 375},  // 页面宽
   height: {type: Number, default: 611},  // 页面高
-  pageMode: {type: Number, default: 0},  // 渲染模式
+  pageMode: {type: String, default: 'h5'},  // 渲染模式
   flipType: {type: Number, default: 0},  // 翻页模式
   slideNumber: {type: Boolean, default: false},  // 翻页是否显示页面翻页指示
   add_time: Number,
@@ -29,7 +29,7 @@ const schema = new Schema({
   status: {type: Number, enum: [0, 1], default: 1},  // 0 不允许访问， 1 允许访问
   isPublish: {type: Boolean, default: false},  // 是否发布
   isTemplate: {type: Boolean, default: false},  // 是否添加到模板
-  memders: [Schema.Types.ObjectId], // 共享人员列表
+  members: [Schema.Types.ObjectId], // 共享人员列表
 }, {timestamps: {createdAt: 'created', updatedAt: 'updated'}})
 
 const model = mongoose.model('page', schema, 'page')
