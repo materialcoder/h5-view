@@ -8,7 +8,7 @@
       <i class="iconfont iconredo"></i>
       <p>重做</p>
     </div>
-    <div class="button-item">
+    <div class="button-item" @click="preview">
       <i class="iconfont iconplus-preview"></i>
       <p>预览</p>
     </div>
@@ -35,6 +35,9 @@ export default {
     },
     cancel() {
       this.$emit('cancel')
+    },
+    preview() {
+      this.$emit('preview')
     }
   }
 }

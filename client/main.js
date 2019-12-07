@@ -8,11 +8,13 @@ import "@/common/style/index.scss"
 import '@/permission'
 import httpServer from '@client/service/httpServer'  // axios 拦截器设置
 import config from '@/config'
+import VueClipboard from 'vue-clipboard2'
 
-import Text from '@/plugins/index'
+// import Text from '@/plugins/index'
 
-Vue.use(Text)
+// Vue.use(Text)
 Vue.use(ElementUI)
+Vue.use(VueClipboard)
 
 // 引入全局公共方法
 Vue.prototype.$axios = httpServer

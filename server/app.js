@@ -47,6 +47,7 @@ render(app, {
 app.use(koajwt({secret: SECRET}).unless({
   // 登录注册接口不需要验证
   path: [
+    /^\/page\/view/,
     /^\/user\/login/,
     /^\/user\/register/
   ]

@@ -20,6 +20,7 @@
         <control-bar
           @save="saveFn"
           @cancel="cancelFn"
+          @preview="previewFn"
         ></control-bar>
       </div>
       <editPanel></editPanel>
@@ -35,6 +36,15 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!-- 预览 -->
+    <preview-page
+      v-if="showPreview"
+      :pageId="id"
+      :pageData="projectData"
+      @closePreview="showPreview=false"
+      @save="saveFn"
+      @publish="publishFn"
+    ></preview-page>
     <!-- 选择图片弹窗 -->
     <image-libs/>
   </div>
@@ -53,6 +63,9 @@ import eventEdit from './components/attr-configure/event-edit'
 
 import imageLibs from '@client/components/image-libs'
 
+// 预览界面
+import previewPage from './components/preview'
+
 import {mapState} from 'vuex'
 export default {
   components: {
@@ -63,11 +76,13 @@ export default {
     controlBar,
     attrEdit,
     eventEdit,
-    imageLibs
+    imageLibs,
+    previewPage
   },
   data() {
     return {
       id: '', //当前页面id
+      showPreview: false, // 是否显示预览界面
       loading: false,
       activeSidebar: 'componentLists',
       activeAttrTab: '属性',
@@ -120,6 +135,7 @@ export default {
       this.$axios.post('page/update/' + this.id, this.projectData).then((res) => {
         if (res.code === 200) {
           this.$message.success('保存成功！')
+          this.showPreview = false
         }
       })
     },
@@ -132,6 +148,16 @@ export default {
       }).then(() => {
         this.$router.push('/page-list')
       }).catch(() => {})
+    },
+    // 预览 先保存再预览
+    previewFn() {
+      this.$axios.post('/page/update/' + this.id, this.projectData).then(() => {
+        this.showPreview = true
+      })
+    },
+    // 发布
+    publishFn() {
+      this.$message.warning('暂不支持该功能！')
     }
   }
 }

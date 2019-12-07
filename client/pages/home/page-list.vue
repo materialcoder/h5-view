@@ -29,7 +29,7 @@
             <img :src="item.coverImage || require('@client/common/images/quark--pagecover-image.jpg')" alt="">
           </div>
           <div class="header-mask">
-            <div class="preview-btn">预览</div>
+            <div class="preview-btn" @click="previewPage(item._id)">预览</div>
           </div>
           <div class="item-title">
             <span>{{item.title}}</span>
@@ -72,15 +72,19 @@
         </div>
       </div>
     </div>
+    <preview-page v-if="showPreview" :pageId="previewId" @closePreview="showPreview=false"></preview-page>
   </div>
 </template>
 
 <script>
 import editorConfig from '@/pages/editor/DataModel'
+import previewPage from './components/preview'
 export default {
   data() {
     return {
       loading: false,
+      showPreview: false,
+      previewId: '',
       myCount: 0,
       shareCount: 0,
       activeName: 'h5',
@@ -107,6 +111,9 @@ export default {
       },
       pageList: []
     }
+  },
+  components: {
+    previewPage
   },
   created() {
     this.getPageList()
@@ -160,6 +167,11 @@ export default {
     editPage(id) {
       this.$router.push({path: '/editor', query: {id: id}})
     },
+    // 预览
+    previewPage(id) {
+      this.previewId = id
+      this.showPreview = true
+    },
     /**
      * 删除页面
      */
@@ -176,6 +188,7 @@ export default {
             this.$message.success('删除成功')
             // 从页面删除
             this.pageList.splice(index, 1)
+            this.getPagesCount()
           } else {
             this.$message.error('删除失败')
           }
