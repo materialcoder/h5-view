@@ -63,7 +63,7 @@ router.use(async (ctx, next) => {
   // 全局变量
   ctx.state.BASE_URL = $config.baseURL
   ctx.state.ROOT_PATH = path.join(__dirname, '../')
-  ctx.state.SERVER_PATH = path.join(__dirname, '../')
+  ctx.state.SERVER_PATH = path.join(__dirname, './')
   ctx.state.SECRET = SECRET
   await next()
 })

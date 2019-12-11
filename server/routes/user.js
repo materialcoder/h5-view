@@ -1,5 +1,6 @@
 const router = require('koa-router')()
 const Users = require('../models/user')
+const Image = require('../models/image')
 const mongoose = require('mongoose')
 const jsonwebtoken = require('jsonwebtoken')
 
@@ -52,6 +53,17 @@ router.get('/info', async ctx => {
   console.log(ctx.state.user)
   let _id = ctx.state.user._id
   ctx.body = await Users.findOne({_id}).select('username email avatar roles').exec()
+})
+
+// 查询我的图片
+router.get('/images', async ctx => {
+  let author = ctx.state.user._id
+  let result = await Image.find({author: author}).sort({created: -1})
+  ctx.body = result
+})
+
+router.delete('/delteimages', async ctx => {
+  ctx.body = await Image.remove({})
 })
 
 module.exports = router

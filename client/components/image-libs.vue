@@ -10,9 +10,13 @@
         <el-button size="small" type="primary">点击上传</el-button>
         <div slot="tip" class="el-upload__tip">只能上传jpg,png,gif文件，且不超过2Mb</div>
       </el-upload>
-      <div class="image-list">
-        llll
+      <!-- <el-button @click="deleteAll">删除</el-button> -->
+      <div class="image-list-wrapper" v-if="imageList.length">
+        <div class="img-item" v-for="item in imageList" :key="item._id">
+          <img :src="item.url" alt="">
+        </div>
       </div>
+      <div class="image-list-wrapper text-center" v-else>暂无数据</div>
     </div>
   </el-dialog>
 </template>
@@ -22,7 +26,8 @@ import $bus from '@client/eventBus'
 export default {
   data() {
     return {
-      showDialog: false
+      showDialog: false,
+      imageList: []
     }
   },
   mounted() {
@@ -30,14 +35,54 @@ export default {
       this.showDialog = true
     })
   },
+  watch: {
+    showDialog(val) {
+      if (val) {
+        this.getMyImages()
+      }
+    }
+  },
   methods: {
     beforeUpload(file) {
       console.log('beforeUpload')
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
         this.$message.error('上传图片大小不能超过 2MB!')
+        return
       }
-      return isLt2M
+      let temp1 = file.name.split('.')
+      let temp = temp1[temp1.length - 1]
+      if (!['jpg', 'png', 'gif'].includes(temp)) {
+        this.$message.error('请上传jpg/png/gif文件')
+        return
+      }
+      this.uploadImg(file)
+      return false
+    },
+    // 上传图片
+    uploadImg(file) {
+      console.log(file)
+      let params = new FormData()
+      params.append('file', file)
+      console.log(params)
+      this.$axios.post('/common/uploadImage', params).then((res) => {
+        console.log(res)
+        if (res.code === 200) {
+          this.imageList.unshift(res.body)
+        }
+      }).catch(() => {})
+    },
+    // 获取我的所有图片
+    getMyImages() {
+      this.$axios.get('/user/images').then((res) => {
+        console.log(res)
+        this.imageList = res.body
+      })
+    },
+    deleteAll() {
+      this.$axios.delete('/user/delteimages').then((res) => {
+        console.log(res)
+      })
     }
   }
 }
@@ -58,8 +103,36 @@ export default {
         line-height: 32px;
       }
     }
-    .image-list {
+    .image-list-wrapper {
       min-height: 300px;
+      max-height: 500px;
+      overflow: auto;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      .img-item {
+        width: 140px;
+        height: 140px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        margin: 10px;
+        background: #eee;
+        cursor: pointer;
+        img {
+          width: 100%;
+        }
+        &:hover {
+          box-shadow: 0 0 16px 0 rgba(0, 0, 0, .16);
+          transform: translate3d(0, -2px, 0)
+        }
+      }
+    }
+    .text-center {
+      align-items: center;
+      justify-content: center;
     }
   }
 </style>
