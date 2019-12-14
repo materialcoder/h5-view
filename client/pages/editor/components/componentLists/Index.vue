@@ -1,6 +1,6 @@
 <template>
   <div class="component-lib-wrapper">
-    <p class="p-title">组件库</p>
+    <p class="page-title text-center">组件库</p>
     <el-scrollbar>
       <ul>
         <li v-for="(item, index) in componentLists" :key="index">

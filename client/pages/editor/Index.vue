@@ -184,6 +184,7 @@ export default {
     }
   }
   .page-editor-components-wrapper {
+    position: relative;
     width: 255px;
   }
   .page-editor-attr-wrapper {

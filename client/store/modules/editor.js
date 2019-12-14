@@ -135,6 +135,60 @@ const actions = {
 
     // 3. 删除元素
     commit('deleteElement', uuid)
+  },
+  /**
+   * 添加页面
+   * @param param0
+   * @param uuid 
+   */
+  addPage({commit, state}, uuid) {
+    let data = editorProjectConfig.getPageConfig()
+    let index = -1
+    if (uuid) {
+      index = state.projectData.pages.findIndex(v => v.uuid === uuid)
+    } else {
+      index = state.projectData.pages.length - 1
+    }
+    commit('insertPage', {data, index})
+    commit('setActivePageUUID', state.projectData.pages[index + 1].uuid)
+  },
+  /**
+   * 复制页面
+   * @param param0
+   * @param uuid 
+   */
+  copyPage({commit, state}, uuid) {
+    let pageData = state.projectData.pages.find(v => v.uuid === uuid)
+    let data = editorProjectConfig.copyPage(pageData)
+    commit('insertPage', {data})
+    commit('setActivePageUUID', state.projectData.pages[state.projectData.pages.length - 1].uuid)
+  },
+  /**
+   * 删除页面
+   * @param param0
+   * @param uuid 
+   */
+  deletePage({commit, dispatch}, uuid) {
+    // 如果删除的是最后一个页面 则需要先新增一个页面并设置为选中状态，然后在删除页面
+    // 因为删空后什么也没有是不合逻辑的
+    if (state.projectData.pages.length === 1 && state.activePageUUID === uuid) {
+      dispatch('addPage')
+      commit('setActivePageUUID', state.projectData.pages[1].uuid)
+      commit('deletePage', 0)
+      return
+    }
+    let index = state.projectData.pages.findIndex(v => v.uuid === uuid)
+    // 如果删除的是选中的页面
+    // 如果选中的是最后一页，需要先将uuid设置为上一页再删除
+    // 否则，需要先将uuid设置为下一页再删除
+    if (state.activePageUUID === uuid) {
+      if (index === state.projectData.pages.length - 1) {
+        commit('setActivePageUUID', state.projectData.pages[index - 1].uuid)
+      } else {
+        commit('setActivePageUUID', state.projectData.pages[index + 1].uuid)
+      }
+    }
+    commit('deletePage', index)
   }
 }
 
@@ -228,6 +282,20 @@ const mutations = {
         item.commonStyle.zIndex++
       }
     })
+  },
+  /**
+   * 新增页面
+   */
+  insertPage(state, {data, index}) {
+    if (index !== undefined) {
+      state.projectData.pages.splice(index + 1, 0, data)
+    } else {
+      state.projectData.pages.push(data)
+    }
+  },
+  // 删除页面
+  deletePage(state, index) {
+    state.projectData.pages.splice(index, 1)
   },
   /**
    * 保存展开的页签状态

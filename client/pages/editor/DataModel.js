@@ -145,6 +145,7 @@ let getCommonStyle = (styleObj, scalingRatio = 1) => {
   return style
 }
 
+// 复制元素
 let copyElement = (element, extendStyle = {}) => {
   element = cloneDeep(element)
   element.uuid = createUUID()
@@ -156,11 +157,23 @@ let copyElement = (element, extendStyle = {}) => {
   return element
 }
 
+// 复制页面
+const copyPage = (data) => {
+  let pageData = cloneDeep(data)
+  pageData.uuid = createUUID()
+  pageData.elements = pageData.elements.map(element => {
+    return copyElement(element)
+  })
+  return pageData
+}
+
 export default {
   elementConfig,
   pageConfig,
   getElementConfig,
   getProjectConfig,
+  getPageConfig,
   getCommonStyle,
-  copyElement
+  copyElement,
+  copyPage
 }
