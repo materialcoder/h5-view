@@ -17,4 +17,10 @@ router.post('/uploadImage', async ctx => {
   })
 })
 
+// 上传文件 不用存储路径到数据库
+router.post('/uploadFile', async ctx => {
+  let imageUrl = uploadImage(ctx)
+  ctx.body = imageUrl
+})
+
 module.exports = router

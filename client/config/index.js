@@ -22,8 +22,8 @@ const configObj = {
   ...confgiDict[currentConfigKey],
   isDevlop: (isDev || isTest),
   // h5模式宽高
-  canvasH5Width: 400,
-  canvasH5Height: 650
+  canvasH5Width: 375,
+  canvasH5Height: 644
 }
 
 export default configObj

@@ -23,24 +23,33 @@ export default {
   },
   data() {
     return {
+      selectId: +new Date(),
       tempValue: ''
     }
   },
   mounted() {
     this.tempValue = this.url
+    $bus.$on('select-image', this.changeImage)
   },
   watch: {
+    url(val) {
+      this.tempValue = val
+    },
     tempValue(val) {
-      this.changeImage(val)
+      this.changeImage(this.selectId, val)
     }
   },
   methods: {
     handleClick() {
       // 弹出图片选择窗
-      $bus.$emit('show-select-image-libs')
+      $bus.$emit('show-select-image-libs', this.selectId)
     },
-    changeImage(val) {
-      this.$emit('update:url', val)
+    changeImage(id, url) {
+      if (id !== this.selectId) {
+        return
+      }
+      this.$emit('update:url', url)
+      this.$emit('change', url)
     }
   }
 }

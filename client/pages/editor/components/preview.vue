@@ -3,7 +3,9 @@
     <p class="page-title">页面基础设置</p>
     <div class="preview-info-wrapper">
       <div class="page-info">
-        <div class="page-cover"></div>
+        <div class="page-cover">
+          <image-cropper :url.sync="pageData.coverImage"></image-cropper>
+        </div>
         <div class="page-desc">
           <div class="info-form-wrapper">
             <div class="info-form-l">标题：</div>
@@ -58,6 +60,7 @@
 
 <script>
 import previewWrapper from '@/components/preview-wrapper'
+import imageCropper from '@/components/image-cropper'
 export default {
   props: {
     pageId: String,
@@ -67,7 +70,8 @@ export default {
     }
   },
   components: {
-    previewWrapper
+    previewWrapper,
+    imageCropper
   },
   methods: {
     closePreview() {

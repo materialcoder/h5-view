@@ -12,7 +12,7 @@
       </el-upload>
       <!-- <el-button @click="deleteAll">删除</el-button> -->
       <div class="image-list-wrapper" v-if="imageList.length">
-        <div class="img-item" v-for="item in imageList" :key="item._id">
+        <div class="img-item" v-for="item in imageList" :key="item._id" @click="handleImageClick(item.url)">
           <img :src="item.url" alt="">
         </div>
       </div>
@@ -27,12 +27,14 @@ export default {
   data() {
     return {
       showDialog: false,
-      imageList: []
+      imageList: [],
+      selectId: ''
     }
   },
   mounted() {
-    $bus.$on('show-select-image-libs', () => {
+    $bus.$on('show-select-image-libs', selectId => {
       this.showDialog = true
+      this.selectId = selectId
     })
   },
   watch: {
@@ -78,6 +80,10 @@ export default {
         console.log(res)
         this.imageList = res.body
       })
+    },
+    handleImageClick(url) {
+      $bus.$emit('select-image', this.selectId, url)
+      this.showDialog = false
     },
     deleteAll() {
       this.$axios.delete('/user/delteimages').then((res) => {

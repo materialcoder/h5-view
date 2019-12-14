@@ -27,7 +27,9 @@
         </div>
       </div>
       <div class="page-info bg mt20">
-        <div class="page-cover"></div>
+        <div class="page-cover">
+          <img :src="pageData.coverImage" alt="">
+        </div>
         <div class="page-desc">
           <div class="info-form-wrapper">
             <span class="plain-text">{{pageData.title}}</span>
@@ -104,10 +106,16 @@ export default {
   .page-info {
     display: flex;
     .page-cover {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 120px;
       height: 120px;
       background-color: #ccc;
       margin-right: 20px;
+      img {
+        width: 100%;
+      }
     }
     .page-desc {
       flex: 1;

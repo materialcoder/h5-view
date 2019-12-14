@@ -34,6 +34,9 @@
         <el-tab-pane name="事件" label="事件">
           <event-edit></event-edit>
         </el-tab-pane>
+        <el-tab-pane name="页面设置" label="页面属性">
+          <page-attr-edit></page-attr-edit>
+        </el-tab-pane>
       </el-tabs>
     </div>
     <!-- 预览 -->
@@ -60,6 +63,7 @@ import controlBar from './components/control-bar'
 // 属性编辑相关组件
 import attrEdit from './components/attr-configure/attr-edit'
 import eventEdit from './components/attr-configure/event-edit'
+import pageAttrEdit from './components/attr-configure/page-attr-edit'
 
 import imageLibs from '@client/components/image-libs'
 
@@ -76,6 +80,7 @@ export default {
     controlBar,
     attrEdit,
     eventEdit,
+    pageAttrEdit,
     imageLibs,
     previewPage
   },
