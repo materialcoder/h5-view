@@ -9,6 +9,7 @@ import '@/permission'
 import httpServer from '@client/service/httpServer'  // axios 拦截器设置
 import config from '@/config'
 import VueClipboard from 'vue-clipboard2'
+import 'animate.css'
 
 // import Text from '@/plugins/index'
 

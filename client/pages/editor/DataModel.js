@@ -6,7 +6,7 @@ import {createUUID, deepClone} from '../../../common/utils'
 // 元素配置信息字段
 let elementConfig = {
   elName: '', // 组件名
-  animation: [], // 动画集合
+  animations: [], // 动画集合
   commonStyle: {
     position: 'absolute',
     width: $config.canvasH5Width,

@@ -189,6 +189,21 @@ const actions = {
       }
     }
     commit('deletePage', index)
+  },
+  /**
+   * 添加动画
+   * @param {String} animationName 动画名称
+   */
+  addElementAnimate({commit}, animationName) {
+    // 初始化数据
+    let animateDefaultData = {
+      type: animationName,
+      duration: 1,  // 持续时间
+      infinite: '',  // 循环播放
+      interactionCount: 1,  // 循环次数
+      delay: 0  // 延迟时间
+    }
+    commit('addElementAnimate', animateDefaultData)
   }
 }
 
@@ -296,6 +311,11 @@ const mutations = {
   // 删除页面
   deletePage(state, index) {
     state.projectData.pages.splice(index, 1)
+  },
+  // 添加动画
+  addElementAnimate(state, data) {
+    let activeElement = getters.activeElement(state)
+    activeElement.animations.push(data)
   },
   /**
    * 保存展开的页签状态

@@ -20,5 +20,15 @@ npm run build
 npm run lint
 ```
 
+### run server
+```
+npm run dev-server
+```
+
+### build template
+```
+npm run lib:h5-swiper
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
