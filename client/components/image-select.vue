@@ -24,12 +24,12 @@ export default {
   data() {
     return {
       selectId: +new Date(),
-      tempValue: ''
+      tempValue: this.url
     }
   },
-  mounted() {
-    this.tempValue = this.url
+  created() {
     $bus.$on('select-image', this.changeImage)
+    // this.tempValue = this.url
   },
   watch: {
     url(val) {

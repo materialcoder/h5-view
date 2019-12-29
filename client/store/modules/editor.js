@@ -1,5 +1,5 @@
 import editorProjectConfig from '@client/pages/editor/DataModel'
-import {merge} from 'lodash'
+import {merge, cloneDeep} from 'lodash'
 /**
  * 编辑器数据状态存储
  */
@@ -39,6 +39,7 @@ const actions = {
       dispatch('addPage')
     }
     dispatch('setActivePageUUID', state.projectData.pages[0].uuid)
+    commit('clearHistoryCache')
   },
   /**
    * 设置当前选中页面uuid
@@ -71,6 +72,7 @@ const actions = {
     console.log(data)
     commit('addElement', data)
     commit('setActiveElementUUID', data.uuid)
+    commit('addHistoryCache')
   },
   /**
    * 操作命令
@@ -88,24 +90,31 @@ const actions = {
         break
       case 'fontA+':
         commit('resetElementCommonStyle', {fontSize: elData.commonStyle.fontSize + 1})
+        commit('addHistoryCache')
         break
       case 'fontA-':
         commit('resetElementCommonStyle', {fontSize: elData.commonStyle.fontSize - 1})
+        commit('addHistoryCache')
         break
       case 'fontB':
         commit('resetElementCommonStyle', {fontWeight: elData.commonStyle.fontWeight === 'bold' ? 'normal' : 'bold'})
+        commit('addHistoryCache')
         break
       case 'layerUp':
         commit('resetElementLayerIndex', {uuid: elData.uuid, type: 'layerUp'})
+        commit('addHistoryCache')
         break
       case 'layerDown':
         commit('resetElementLayerIndex', {uuid: elData.uuid, type: 'layerDown'})
+        commit('addHistoryCache')
         break
       case 'layerTop':
         commit('resetElementLayerIndex', {uuid: elData.uuid, type: 'layerTop'})
+        commit('addHistoryCache')
         break
       case 'layerBottom':
         commit('resetElementLayerIndex', {uuid: elData.uuid, type: 'layerBottom'})
+        commit('addHistoryCache')
         break
     }
   },
@@ -120,6 +129,7 @@ const actions = {
     let data = editorProjectConfig.copyElement(copyOriginData, {zIndex: activePage.elements.length + 1})
     commit('addElement', data)
     commit('setActiveElementUUID', data.uuid)
+    commit('addHistoryCache')
   },
   /**
    * 删除元素
@@ -135,6 +145,7 @@ const actions = {
 
     // 3. 删除元素
     commit('deleteElement', uuid)
+    commit('addHistoryCache')
   },
   /**
    * 添加页面
@@ -151,6 +162,7 @@ const actions = {
     }
     commit('insertPage', {data, index})
     commit('setActivePageUUID', state.projectData.pages[index + 1].uuid)
+    commit('addHistoryCache')
   },
   /**
    * 复制页面
@@ -162,6 +174,7 @@ const actions = {
     let data = editorProjectConfig.copyPage(pageData)
     commit('insertPage', {data})
     commit('setActivePageUUID', state.projectData.pages[state.projectData.pages.length - 1].uuid)
+    commit('addHistoryCache')
   },
   /**
    * 删除页面
@@ -189,6 +202,7 @@ const actions = {
       }
     }
     commit('deletePage', index)
+    commit('addHistoryCache')
   },
   /**
    * 添加动画
@@ -204,10 +218,34 @@ const actions = {
       delay: 0  // 延迟时间
     }
     commit('addElementAnimate', animateDefaultData)
+    commit('addHistoryCache')
   },
   // 删除动画
   deleteElementAnimate({commit}, index) {
     commit('deleteElementAnimate', index)
+    commit('addHistoryCache')
+  },
+  // 添加历史记录
+  addHistoryCache({commit}) {
+    commit('addHistoryCache')
+  },
+  // 撤销操作
+  editorUndo({commit, state}) {
+    if (!getters.canUndo(state)) {
+      return
+    }
+    const prevState = state.historyCache[state.currentHistoryIndex - 1]
+    commit('replaceEditorState', prevState)
+    commit('editorUndo')
+  },
+  // 重做操作
+  editorRedo({commit, state}) {
+    if (!getters.canRedo(state)) {
+      return
+    }
+    const prevState = state.historyCache[state.currentHistoryIndex + 1]
+    commit('replaceEditorState', prevState)
+    commit('editorRedo')
   }
 }
 
@@ -333,6 +371,40 @@ const mutations = {
    */
   updateAttrEditCollapse(state, data) {
     state.activeAttrEditorCollapse = data
+  },
+  // 添加一条历史记录
+  addHistoryCache(state) {
+    // 当前可撤销步数比历史记录少，以当前可撤销步数为准
+    if (state.currentHistoryIndex + 1 < state.historyCache.length) {
+      state.historyCache.splice(state.currentHistoryIndex + 1)
+    }
+    state.historyCache.push({
+      projectData: cloneDeep(state.projectData),
+      activePageUUID: state.activePageUUID,
+      activeElementUUID: state.activeElementUUID
+    })
+    // 限制undo记录步数  最多支持100步操作
+    state.historyCache.splice(100)
+    state.currentHistoryIndex++
+  },
+  // 清空历史记录缓存
+  clearHistoryCache(state) {
+    state.historyCache = []
+    state.currentHistoryIndex = -1
+  },
+  // 撤销
+  editorUndo(state) {
+    state.currentHistoryIndex--
+  },
+  // 重做
+  editorRedo(state) {
+    state.currentHistoryIndex++
+  },
+  // 更新编辑器项目数据
+  replaceEditorState(state, data) {
+    state.projectData = data.projectData
+    state.activePageUUID = data.activePageUUID
+    state.activeElementUUID = data.activeElementUUID
   }
 }
 
@@ -382,6 +454,14 @@ const getters = {
       return -1
     }
     return state.projectData.pages[currentPageIndex].elements.findIndex(v => v.uuid === state.activeElementUUID)
+  },
+  // 是否可以撤销 当前历史指针大于0即可
+  canUndo() {
+    return state.currentHistoryIndex > 0
+  },
+  // 是否可以重做（恢复） 当前指针位置要比缓存的历史长度小
+  canRedo() {
+    return state.historyCache.length > state.currentHistoryIndex + 1
   }
 }
 

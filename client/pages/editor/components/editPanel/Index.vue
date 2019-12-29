@@ -118,8 +118,8 @@ export default {
      */
     handleElementResize(pos) {
       if (!pos) {
-        // todo
         // 记录一次历史操作
+        this.$store.dispatch('addHistoryCache')
         return
       }
       // 下面这句其实没什么左右，已经自动更新了

@@ -113,6 +113,8 @@ export default {
       let startY = e.clientY
       let startLeft = pos.left
       let startTop = pos.top
+      let firstTime = '', lastTime = ''
+      firstTime = new Date().getTime()
       let move = (moveEvent) => {
         moveEvent.stopPropagation()
         moveEvent.preventDefault()
@@ -123,12 +125,16 @@ export default {
         this.$emit('resize', pos)
       }
       let up = () => {
-        this.$emit('resize')
+        lastTime = new Date().getTime()
+        if (lastTime - firstTime > 200) {
+          this.$emit('resize')
+        }
         document.removeEventListener('mousemove', move, true)
         document.removeEventListener('mouseup', up, true)
       }
       document.addEventListener('mousemove', move, true)
       document.addEventListener('mouseup', up, true)
+      return true
     },
     /**
      * 鼠标选中缩放元素

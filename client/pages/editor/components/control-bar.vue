@@ -1,10 +1,10 @@
 <template>
   <div class="component-contorl-bar">
-    <div class="button-item">
+    <div class="button-item" :class="{disabled: !canUndo}" @click="editorUndo">
       <i class="iconfont iconundo"></i>
       <p>撤销</p>
     </div>
-    <div class="button-item">
+    <div class="button-item" :class="{disabled: !canRedo}" @click="editorRedo">
       <i class="iconfont iconredo"></i>
       <p>重做</p>
     </div>
@@ -28,8 +28,19 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 export default {
+  computed: {
+    ...mapGetters([
+      'canUndo',
+      'canRedo'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'editorUndo',
+      'editorRedo'
+    ]),
     save() {
       this.$emit('save')
     },
@@ -52,6 +63,10 @@ export default {
     cursor: pointer;
     &:hover {
       color: #409EFF;
+    }
+    &.disabled {
+      cursor: not-allowed;
+      color: #ccc;
     }
   }
 </style>

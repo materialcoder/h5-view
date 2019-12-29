@@ -55,7 +55,9 @@
         <div class="attr-edit-item-wrapper">
           <p class="label">旋转：</p>
           <div class="attr-edit-input-wrapper">
-            <el-slider v-model="activeElement.commonStyle.rotate" :max="180" :min="-180" :marks="{0: '', 90: '', '-90': ''}" show-input input-size="mini"></el-slider>
+            <el-slider v-model="activeElement.commonStyle.rotate"
+              @change="throttleAddHistory"
+              :max="180" :min="-180" :marks="{0: '', 90: '', '-90': ''}" show-input input-size="mini"></el-slider>
           </div>
         </div>
       </el-collapse-item>
@@ -64,15 +66,21 @@
           <p class="label">边框：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.borderWidth" :min="0" controls-position="right"></el-input-number>
+              <el-input-number size="mini"
+                v-model="activeElement.commonStyle.borderWidth"
+                @change="throttleAddHistory"
+                :min="0" controls-position="right"></el-input-number>
               <div class="attr-edit-input-des mt7">尺寸</div>
             </div>
             <div class="attr-edit-input">
-              <el-color-picker v-model="activeElement.commonStyle.borderColor" size="mini"></el-color-picker>
+              <el-color-picker
+                v-model="activeElement.commonStyle.borderColor"
+                @change="throttleAddHistory"
+                size="mini"></el-color-picker>
               <div class="attr-edit-input-des">颜色</div>
             </div>
             <div class="attr-edit-input mr0">
-              <el-select v-model="activeElement.commonStyle.borderStyle" size="mini">
+              <el-select v-model="activeElement.commonStyle.borderStyle" @change="throttleAddHistory" size="mini">
                 <el-option v-for="item in borderStyleList" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
               <div class="attr-edit-input-des mt7">样式</div>
@@ -83,7 +91,7 @@
           <p class="label">边框圆弧：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.borderRadius" :min="0" controls-position="right"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.borderRadius" :min="0" controls-position="right"></el-input-number>
             </div>
           </div>
         </div>
@@ -91,13 +99,13 @@
           <p class="label">上下边距：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.paddingTop" :min="0" controls-position="right"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.paddingTop" :min="0" controls-position="right"></el-input-number>
               <div class="attr-edit-input-des">上</div>
             </div>
           </div>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.paddingBottom" :min="0" controls-position="right"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.paddingBottom" :min="0" controls-position="right"></el-input-number>
               <div class="attr-edit-input-des">下</div>
             </div>
           </div>
@@ -106,13 +114,13 @@
           <p class="label">左右边距：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.paddingLeft" :min="0" controls-position="right"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.paddingLeft" :min="0" controls-position="right"></el-input-number>
               <div class="attr-edit-input-des">左</div>
             </div>
           </div>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.paddingRight" :min="0" controls-position="right"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.paddingRight" :min="0" controls-position="right"></el-input-number>
               <div class="attr-edit-input-des">右</div>
             </div>
           </div>
@@ -167,7 +175,7 @@
           <p class="label">字体大小：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.fontSize" controls-position="right" :min="12"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.fontSize" controls-position="right" :min="12"></el-input-number>
             </div>
           </div>
         </div>
@@ -175,7 +183,7 @@
           <p class="label">字体粗细：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.fontWeight" controls-position="right" :min="300"  :step="100"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.fontWeight" controls-position="right" :min="300"  :step="100"></el-input-number>
             </div>
           </div>
         </div>
@@ -183,7 +191,7 @@
           <p class="label">行间距：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.lineHeight" controls-position="right" :min="0" :step="0.1"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.lineHeight" controls-position="right" :min="0" :step="0.1"></el-input-number>
             </div>
           </div>
         </div>
@@ -191,7 +199,7 @@
           <p class="label">字间距：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.letterSpacing" controls-position="right" :min="0" :step="0.1"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.letterSpacing" controls-position="right" :min="0" :step="0.1"></el-input-number>
             </div>
           </div>
         </div>
@@ -211,7 +219,7 @@
           <p class="label">字体颜色：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-color-picker v-model="activeElement.commonStyle.color" size="mini"></el-color-picker>
+              <el-color-picker @change="throttleAddHistory" v-model="activeElement.commonStyle.color" size="mini"></el-color-picker>
             </div>
           </div>
         </div>
@@ -221,7 +229,7 @@
           <p class="label">背景颜色：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-color-picker v-model="activeElement.commonStyle.backgroundColor" size="mini"></el-color-picker>
+              <el-color-picker @change="throttleAddHistory" v-model="activeElement.commonStyle.backgroundColor" size="mini"></el-color-picker>
             </div>
           </div>
         </div>
@@ -229,7 +237,7 @@
           <p class="label">背景图片：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <image-select :url.sync="activeElement.commonStyle.backgroundImage"></image-select>
+              <image-select :url.sync="activeElement.commonStyle.backgroundImage" @change="throttleAddHistory"></image-select>
             </div>
           </div>
         </div>
@@ -237,7 +245,7 @@
           <p class="label">透明度：</p>
           <div class="attr-edit-input-wrapper">
             <div class="attr-edit-input">
-              <el-input-number size="mini" v-model="activeElement.commonStyle.opacity" controls-position="right" :min="0" :max="1" :step="0.1"></el-input-number>
+              <el-input-number @change="throttleAddHistory" size="mini" v-model="activeElement.commonStyle.opacity" controls-position="right" :min="0" :max="1" :step="0.1"></el-input-number>
             </div>
           </div>
         </div>
@@ -249,6 +257,7 @@
 <script>
 import {mapGetters, mapState} from 'vuex'
 import $config from '@client/config'
+import {throttle} from 'lodash'
 import imageSelect from '@client/components/image-select'
 export default {
   name: 'baseAttr',
@@ -351,6 +360,10 @@ export default {
       }
     }
   },
+  created() {
+    // 节流函数，避免频繁添加历史记录
+    this.throttleAddHistory = throttle(this.addHistory, 3000)
+  },
   mounted() {
     this.initElmentBoxShaow()
     this.activeNames = this.activeAttrEditorCollapse
@@ -376,6 +389,9 @@ export default {
     ])
   },
   methods: {
+    addHistory() {
+      this.$store.dispatch('addHistoryCache')
+    },
     initElmentBoxShaow() {
       let boxshadow = this.activeElement.commonStyle.boxShadow
       let boxshadowConfig = {
