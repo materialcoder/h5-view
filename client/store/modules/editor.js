@@ -200,10 +200,14 @@ const actions = {
       type: animationName,
       duration: 1,  // 持续时间
       infinite: '',  // 循环播放
-      interactionCount: 1,  // 循环次数
+      iterationCount: 1,  // 循环次数
       delay: 0  // 延迟时间
     }
     commit('addElementAnimate', animateDefaultData)
+  },
+  // 删除动画
+  deleteElementAnimate({commit}, index) {
+    commit('deleteElementAnimate', index)
   }
 }
 
@@ -316,6 +320,11 @@ const mutations = {
   addElementAnimate(state, data) {
     let activeElement = getters.activeElement(state)
     activeElement.animations.push(data)
+  },
+  // 删除动画
+  deleteElementAnimate(state, index) {
+    let activeElement = getters.activeElement(state)
+    activeElement.animations.splice(index, 1)
   },
   /**
    * 保存展开的页签状态

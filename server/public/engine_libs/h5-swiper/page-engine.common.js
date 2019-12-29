@@ -18922,6 +18922,9 @@ var es_array_for_each = __webpack_require__("4e0e");
 // EXTERNAL MODULE: ./node_modules/_core-js@3.4.1@core-js/modules/es.array.includes.js
 var es_array_includes = __webpack_require__("1d6a");
 
+// EXTERNAL MODULE: ./node_modules/_core-js@3.4.1@core-js/modules/es.array.map.js
+var es_array_map = __webpack_require__("861e");
+
 // EXTERNAL MODULE: ./node_modules/_core-js@3.4.1@core-js/modules/es.object.get-own-property-descriptor.js
 var es_object_get_own_property_descriptor = __webpack_require__("fc43");
 
@@ -19096,6 +19099,8 @@ const deepClone = (obj, cache= []) => {
 
 
 
+
+
 function DataModel_ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
@@ -19137,7 +19142,7 @@ function DataModel_objectSpread(target) {
 var elementConfig = {
   elName: '',
   // 组件名
-  animation: [],
+  animations: [],
   // 动画集合
   commonStyle: {
     position: 'absolute',
@@ -19285,7 +19290,8 @@ var getCommonStyle = function getCommonStyle(styleObj) {
   style.transform = "rotate(".concat(style.rotate, "deg)");
   style.backgroundImage = style.backgroundImage ? "url(".concat(style.backgroundImage, ")") : '';
   return style;
-};
+}; // 复制元素
+
 
 var DataModel_copyElement = function copyElement(element) {
   var extendStyle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
@@ -19296,6 +19302,16 @@ var DataModel_copyElement = function copyElement(element) {
   element.commonStyle.top += 10;
   element.commonStyle.left += 10;
   return element;
+}; // 复制页面
+
+
+var DataModel_copyPage = function copyPage(data) {
+  var pageData = Object(lodash["cloneDeep"])(data);
+  pageData.uuid = createUUID();
+  pageData.elements = pageData.elements.map(function (element) {
+    return DataModel_copyElement(element);
+  });
+  return pageData;
 };
 
 /* harmony default export */ var DataModel = ({
@@ -19303,18 +19319,17 @@ var DataModel_copyElement = function copyElement(element) {
   pageConfig: pageConfig,
   getElementConfig: DataModel_getElementConfig,
   getProjectConfig: DataModel_getProjectConfig,
+  getPageConfig: DataModel_getPageConfig,
   getCommonStyle: getCommonStyle,
-  copyElement: DataModel_copyElement
+  copyElement: DataModel_copyElement,
+  copyPage: DataModel_copyPage
 });
-// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6a91220a-vue-loader-template"}!./node_modules/_vue-loader@15.7.2@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.7.2@vue-loader/lib??vue-loader-options!./engine-templates/engine-h5-swiper/src/components-template.vue?vue&type=template&id=1e82a254&
-var components_templatevue_type_template_id_1e82a254_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"quark-element-wrapper",on:{"click":_vm.handleClick}},[_c(_vm.element.elName,_vm._b({tag:"component",staticClass:"quark-element"},'component',_vm.element.propsValue,false))],1)}
-var components_templatevue_type_template_id_1e82a254_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6a91220a-vue-loader-template"}!./node_modules/_vue-loader@15.7.2@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.7.2@vue-loader/lib??vue-loader-options!./engine-templates/engine-h5-swiper/src/components-template.vue?vue&type=template&id=c0cb9a20&
+var components_templatevue_type_template_id_c0cb9a20_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"quark-element-wrapper",on:{"click":_vm.handleClick}},[_c(_vm.element.elName,_vm._b({tag:"component",staticClass:"quark-element"},'component',_vm.element.propsValue,false))],1)}
+var components_templatevue_type_template_id_c0cb9a20_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./engine-templates/engine-h5-swiper/src/components-template.vue?vue&type=template&id=1e82a254&
-
-// EXTERNAL MODULE: ./node_modules/_core-js@3.4.1@core-js/modules/es.array.map.js
-var es_array_map = __webpack_require__("861e");
+// CONCATENATED MODULE: ./engine-templates/engine-h5-swiper/src/components-template.vue?vue&type=template&id=c0cb9a20&
 
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"6a91220a-vue-loader-template"}!./node_modules/_vue-loader@15.7.2@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.7.2@vue-loader/lib??vue-loader-options!./client/plugins/text/src/index.vue?vue&type=template&id=0ae3d93f&
 var srcvue_type_template_id_0ae3d93f_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"h5-text"},[_vm._v(" "+_vm._s(_vm.text)+" ")])}
@@ -19510,6 +19525,83 @@ components.forEach(function (item) {
   install: plugins_install // 所有组件，必须具有install，才能使用Vue.use()
 
 });
+// CONCATENATED MODULE: ./client/common/js/runAnimations.js
+
+
+
+
+
+/**
+ * 动画方法，将动画CSS加到元素上，返回Promise提供后续操作（将动画重置）
+ * @param $el 当前执行动画的元素
+ * @param animationList 动画列表
+ * @param isDebug 
+ * @param callback 
+ */
+
+function runAnimation($el) {
+  var animationList,
+      isDebug,
+      callback,
+      playFn,
+      i,
+      len,
+      _args = arguments;
+  return regeneratorRuntime.async(function runAnimation$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          animationList = _args.length > 1 && _args[1] !== undefined ? _args[1] : [];
+          isDebug = _args.length > 2 ? _args[2] : undefined;
+          callback = _args.length > 3 ? _args[3] : undefined;
+
+          playFn = function playFn(animation) {
+            return new Promise(function (resolve) {
+              $el.style.animationName = animation.type;
+              $el.style.animationDuration = "".concat(animation.duration, "s");
+              $el.style.animationIterationCount = animation.inifite ? isDebug ? 1 : 'inifite' : animation.iterationCount;
+              $el.style.animationDelay = "".concat(animation.delay, "s");
+              $el.style.animationFillMode = 'both';
+
+              var resolveFn = function resolveFn() {
+                $el.removeEventListener('animationend', resolveFn, false);
+                $el.addEventListener('animationcancel', resolveFn, false);
+                resolve();
+              };
+
+              $el.addEventListener('animationend', resolveFn, false);
+              $el.addEventListener('animationcancel', resolveFn, false);
+            });
+          };
+
+          i = 0, len = animationList.length;
+
+        case 5:
+          if (!(i < len)) {
+            _context.next = 11;
+            break;
+          }
+
+          _context.next = 8;
+          return regeneratorRuntime.awrap(playFn(animationList[i]));
+
+        case 8:
+          i++;
+          _context.next = 5;
+          break;
+
+        case 11:
+          if (callback) {
+            callback();
+          }
+
+        case 12:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
+}
 // CONCATENATED MODULE: ./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--12-0!./node_modules/_thread-loader@2.1.3@thread-loader/dist/cjs.js!./node_modules/_babel-loader@8.0.6@babel-loader/lib!./node_modules/_cache-loader@4.1.0@cache-loader/dist/cjs.js??ref--0-0!./node_modules/_vue-loader@15.7.2@vue-loader/lib??vue-loader-options!./engine-templates/engine-h5-swiper/src/components-template.vue?vue&type=script&lang=js&
 
 
@@ -19533,8 +19625,8 @@ function components_templatevue_type_script_lang_js_objectSpread(target) { for (
 //
 //
 //
- // import runAnimations from '@client/common/js/runAnimations'
-// import elementEvents from '@client/mixins/elementEvents'
+
+ // import elementEvents from '@client/mixins/elementEvents'
 
 /* harmony default export */ var components_templatevue_type_script_lang_js_ = ({
   name: "components-template",
@@ -19546,11 +19638,14 @@ function components_templatevue_type_script_lang_js_objectSpread(target) { for (
     }
   },
   // mixins: [elementEvents],
-  mounted: function mounted() {// let cssText = this.$el.style.cssText;
-    // let animations = this.element.animations || [];
-    // runAnimations(this.$el, animations, false, () => {
-    // 	this.$el.style.cssText = cssText
-    // })
+  mounted: function mounted() {
+    var _this = this;
+
+    var cssText = this.$el.style.cssText;
+    var animations = this.element.animations || [];
+    runAnimation(this.$el, animations, false, function () {
+      _this.$el.style.cssText = cssText;
+    });
   },
   methods: {
     handleClick: function handleClick() {
@@ -19578,8 +19673,8 @@ function components_templatevue_type_script_lang_js_objectSpread(target) { for (
 
 var components_template_component = normalizeComponent(
   src_components_templatevue_type_script_lang_js_,
-  components_templatevue_type_template_id_1e82a254_render,
-  components_templatevue_type_template_id_1e82a254_staticRenderFns,
+  components_templatevue_type_template_id_c0cb9a20_render,
+  components_templatevue_type_template_id_c0cb9a20_staticRenderFns,
   false,
   null,
   null,

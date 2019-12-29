@@ -4,7 +4,7 @@
       <div class="attr-edit-inner" v-if="activeElementUUID">
         <div class="animate-edit-btn-wrapper">
           <el-button type="primary" icon="el-icon-plus" size="small" @click="addAnimate">添加动画</el-button>
-          <el-button size="small" icon="el-icon-caret-right">预览动画</el-button>
+          <el-button size="small" icon="el-icon-caret-right" @click="runAnimate(undefined)">预览动画</el-button>
         </div>
         <div class="animate-list-wrapper mt20" v-show="activeElement.animations.length > 0">
           <el-collapse accordion>
@@ -12,18 +12,48 @@
               <template slot="title">
                 <span class="animate-item-title">动画 {{index + 1}}</span>
                 <div class="animate-item-type-wrapper">
-                  <span class="animate-item-type">
+                  <span class="animate-item-type" @click.stop.prevent="handleShowChooseAnimatePane(index)">
                     {{item.type}}
                     <i class="el-icon-caret-right size-mini"></i>
                   </span>
                 </div>
                 <span class="animate-item-btn">
-                  <i class="el-icon-caret-"></i>
+                  <i class="el-icon-caret-right" @click.stop.prevent="runAnimate(index)"></i>
                 </span>
                 <span class="animate-item-btn">
-                  <i class="el-icon-delete"></i>
+                  <i class="el-icon-delete" @click.stop.prevent="handleDeleteAnimate(index)"></i>
                 </span>
               </template>
+              <div class="animate-item-options">
+                <div class="attr-edit-item-wrapper">
+                  <p class="label">动画时长：</p>
+                  <div class="attr-edit-input-wrapper">
+                   <div class="attr-edit-input">
+                      <el-input-number size="mini" v-model="item.duration" controls-position="right" :min="0" :step="0.1"></el-input-number>
+                   </div>
+                  </div>
+                </div>
+                <div class="attr-edit-item-wrapper">
+                  <p class="label">动画延时：</p>
+                  <div class="attr-edit-input-wrapper">
+                    <div class="attr-edit-input">
+                      <el-input-number size="mini" v-model="item.delay" controls-position="right" :min="0" :step="0.1"></el-input-number>
+                    </div>
+                  </div>
+                </div>
+                <div class="attr-edit-item-wrapper">
+                  <p class="label">循环次数：</p>
+                  <div class="attr-edit-input-wrapper">
+                    <div class="attr-edit-input">
+                      <el-input-number size="mini" v-model="item.iterationCount" controls-position="right"></el-input-number>
+                      <div class="attr-edit-input-des">次数</div>
+                    </div>
+                    <div class="attr-edit-input">
+                      <el-checkbox size="small" v-model="item.infinite" label="infinite" border>循环播放</el-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </el-collapse-item>
           </el-collapse>
         </div>
@@ -56,6 +86,7 @@
 <script>
 import animateCssData from '@/common/animateCssData'
 import {mapState, mapGetters} from 'vuex'
+import BUS from '@/eventBus'
 export default {
   data() {
     return {
@@ -80,10 +111,17 @@ export default {
     ])
   },
   methods: {
+    // 添加动画
     addAnimate(showAnimatePane = true) {
       this.showAnimatePane = showAnimatePane
-
+      this.reSelectAnimateIndex = undefined
     },
+    // 重新设置动画
+    handleShowChooseAnimatePane(index) {
+      this.showAnimatePane = true
+      this.reSelectAnimateIndex = index
+    },
+    // 选择动画
     handleChooseAnimate(item) {
       this.showAnimatePane = false
       if (this.reSelectAnimateIndex === undefined) {
@@ -91,6 +129,17 @@ export default {
       } else {
         this.activeElement.animations[this.reSelectAnimateIndex].type = item.value
       }
+    },
+    // 删除动画
+    handleDeleteAnimate(index) {
+      console.log(index)
+      this.$store.dispatch('deleteElementAnimate', index)
+    },
+    // 预览动画
+    runAnimate(index) {
+      console.log(index)
+      let animations = index === undefined ? this.activeElement.animations : [this.activeElement.animations[index]]
+      BUS.$emit('RUN_ANIMATIONS', this.activeElement.uuid, animations)
     }
   }
 }
@@ -101,6 +150,38 @@ export default {
     height: 100%;
     .el-scrollbar__wrap {
       overflow-x: hidden;
+    }
+  }
+  .animate-list-wrapper {
+    .animate-item-title {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .animate-item-type-wrapper {
+      width: 200px;
+      text-align: center;
+      .animate-item-type {
+        padding: 0 12px;
+        height: 24px;
+        line-height: 24px;
+        display: inline-block;
+        border-radius: 12px;
+        &:hover {
+          background: #409fee;
+          color: #fff;
+        }
+      }
+    }
+    .animate-item-btn i {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      background: #ddd;
+      text-align: center;
+      margin: 0 10px;
+      &:hover {
+        background: #ccc;
+      }
     }
   }
   .animate-choose-list-wrapper {
@@ -137,6 +218,52 @@ export default {
         height: 40px;
         margin-bottom: 6px;
         background-image: url(../../../../common/images/use-beb469.png)
+      }
+    }
+  }
+  .attr-edit-item-wrapper {
+    display: flex;
+    &.mb15 {
+      margin-bottom: 15px;
+    }
+    .label {
+      width: 82px;
+      text-align: right;
+      height: 38px;
+      line-height: 38px;
+    }
+    .attr-edit-input-wrapper {
+      display: flex;
+      .attr-edit-input {
+        margin: 4px 8px 4px 4px;
+        .attr-edit-input-des {
+          color: #999;
+        }
+      }
+      .el-select .el-input .el-input__inner {
+        width: 90px;
+      }
+      .attr-edit-input .is-controls-right {
+        width: 89px;
+      }
+      .el-input-number.is-controls-right .el-input__inner {
+        width: 90px;
+        padding-left: 10px;
+        padding-right: 35px;
+      }
+      .el-checkbox--small {
+        height: 28px;
+      }
+      .el-slider__button {
+        width: 12px;
+        height: 12px;
+      }
+      .el-slider__input {
+        width: 95px;
+      }
+      .el-slider__runway.show-input {
+        margin-right: 100px;
+        width: 120px;
       }
     }
   }

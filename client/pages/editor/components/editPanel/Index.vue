@@ -6,6 +6,7 @@
         <edit-shape
           v-for="item in activePage.elements"
           :key="item.uuid"
+          :uuid="item.uuid"
           :defaultStyle="item.commonStyle"
           :style="getCommonStyle(item.commonStyle)"
           :active="item.uuid === activeElementUUID"

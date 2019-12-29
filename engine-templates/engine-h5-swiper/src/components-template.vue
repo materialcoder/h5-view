@@ -6,7 +6,7 @@
 
 <script>
 	import {regist_components_obj} from '@client/plugins/index'
-	// import runAnimations from '@client/common/js/runAnimations'
+	import runAnimations from '@client/common/js/runAnimations'
 	// import elementEvents from '@client/mixins/elementEvents'
 
 	export default {
@@ -23,11 +23,11 @@
 		},
 		// mixins: [elementEvents],
 		mounted() {
-			// let cssText = this.$el.style.cssText;
-			// let animations = this.element.animations || [];
-			// runAnimations(this.$el, animations, false, () => {
-			// 	this.$el.style.cssText = cssText
-			// })
+			let cssText = this.$el.style.cssText;
+			let animations = this.element.animations || [];
+			runAnimations(this.$el, animations, false, () => {
+				this.$el.style.cssText = cssText
+			})
 		},
 		methods: {
 			async handleClick() {

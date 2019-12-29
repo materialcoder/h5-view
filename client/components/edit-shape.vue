@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import BUS from '@/eventBus'
+import runAnimations from '@/common/js/runAnimations'
 export default {
   name: 'EditShape',
   props: {
@@ -38,8 +40,23 @@ export default {
         'b': 's',
         'l': 'w',
         'r': 'e'
-      }
+      },
+      animatePlaying: false
     }
+  },
+  mounted() {
+    this.animatePlaying = false
+    BUS.$on('RUN_ANIMATIONS', (uuid, animations) => {
+      if (uuid !== this.uuid) return
+      if (this.animatePlaying) return
+      this.animatePlaying = true
+      let cssText = this.$el.style.cssText
+      runAnimations(this.$el, animations, false, () => {
+        this.animatePlaying = false
+        // 将样式重置回去
+        this.$el.style.cssText = cssText
+      })
+    })
   },
   methods: {
     /**
