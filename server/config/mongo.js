@@ -7,7 +7,7 @@ const options = {
   useUnifiedTopology: true
 }
 
-const url = `mongodb://${config.db.user}:${config.db.pass}@${config.db.servername}:${config.db.port}/${config.db.DATABSE}`
+const url = `mongodb://${config.db.user}:${config.db.pass}@${config.db.servername}:${config.db.port}/${config.db.DATABASE}`
 
 module.exports = {
   connect: () => {
