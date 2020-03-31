@@ -1,7 +1,7 @@
 <template>
   <div class="component-image-cropper">
     <div class="page-cover-img">
-      <img :src="url || defaultCoverImage" alt="">
+      <img :src="url || defaultCoverImage" alt="" />
       <el-upload
         action="https://jsonplaceholder.typicode.com/posts/"
         :before-upload="beforeUpload"
@@ -33,15 +33,17 @@
         ></vueCropper>
       </div>
       <div class="dialog-footer" slot="footer">
-        <el-button size="small" @click="dialogVisible=false">取消</el-button>
-        <el-button type="primary" size="small" @click="uploadImage">确定</el-button>
+        <el-button size="small" @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" size="small" @click="uploadImage"
+          >确定</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import {VueCropper} from 'vue-cropper'
+import { VueCropper } from 'vue-cropper'
 export default {
   components: {
     VueCropper
@@ -53,14 +55,14 @@ export default {
     return {
       loading: false,
       dialogVisible: false,
-      defaultCoverImage: require('@client/common/images/quark--pagecover-image.jpg'),
+      defaultCoverImage: require('@client/common/images/default-cover.jpg'),
       option: {
         img: '', // 裁剪图片的地址
         outputType: 'png', // 裁剪生成图片的格式
-        outputSize: '1',  // 剪切后的图片质量（0.1-1）
-        full: false,  // 输出原图比例截图
+        outputSize: '1', // 剪切后的图片质量（0.1-1）
+        full: false, // 输出原图比例截图
         canScale: false, // 图片是否允许滚轮缩放
-        autoCrop: true,  // 是否默认生成截图框
+        autoCrop: true, // 是否默认生成截图框
         // 自由开启自动截图 高度宽度才生效
         autoCropWidth: 120,
         autoCropHeight: 120,
@@ -77,18 +79,21 @@ export default {
   methods: {
     uploadImage() {
       this.loading = true
-      this.$refs.cropper.getCropBlob((data) => {
+      this.$refs.cropper.getCropBlob(data => {
         let file = this.blobToFile(data)
         let params = new FormData()
         params.append('file', file)
-        this.$axios.post('/common/uploadFile', params).then((res) => {
-          console.log(res)
-          this.loading = false
-          this.dialogVisible = false
-          this.$emit('update:url', res.body)
-        }).catch(() => {
-          this.loading = false
-        })
+        this.$axios
+          .post('/common/uploadFile', params)
+          .then(res => {
+            console.log(res)
+            this.loading = false
+            this.dialogVisible = false
+            this.$emit('update:url', res.body)
+          })
+          .catch(() => {
+            this.loading = false
+          })
       })
     },
     beforeUpload(file) {
@@ -98,7 +103,7 @@ export default {
       }
       var reader = new FileReader()
       let _this = this
-      reader.onload = (e) => {
+      reader.onload = e => {
         let data
         if (typeof e.target.result === 'object') {
           // 把array buffer 转为blob 如果是base64不需要
@@ -124,34 +129,34 @@ export default {
 </script>
 
 <style lang="scss">
-  .component-image-cropper {
-    width: 120px;
-    height: 121px;
-    border: 1px dashed #409fee;
-    .page-cover-img {
+.component-image-cropper {
+  width: 120px;
+  height: 121px;
+  border: 1px dashed #409fee;
+  .page-cover-img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
       width: 100%;
-      height: 100%;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      img {
-        width: 100%;
-      }
-      >div {
-        position: absolute;
-        bottom: 25px;
-        height: 28px;
-        width: 80px;
-        line-height: 28px;
-        text-align: center;
-        background: rgba(0,0,0,0.7);
-        color: #fff;
-        border-radius: 4px;
-      }
+    }
+    > div {
+      position: absolute;
+      bottom: 25px;
+      height: 28px;
+      width: 80px;
+      line-height: 28px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border-radius: 4px;
     }
   }
-  .cropper-wrapper {
-    height: 400px;
-  }
+}
+.cropper-wrapper {
+  height: 400px;
+}
 </style>

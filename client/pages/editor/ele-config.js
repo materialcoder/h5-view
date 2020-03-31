@@ -1,8 +1,6 @@
-export default [
-  {
+export default [{
     title: '基础组件',
-    components: [
-      {
+    components: [{
         // 组件名称，与组件库名称一致
         elName: 'h-text',
         title: '文字',
@@ -24,12 +22,17 @@ export default [
       },
       {
         // 组件名称，与组件库名称一致
-        elName: 'h-text',
-        title: '文字',
+        elName: 'h-button',
+        title: '按钮',
         icon: 'iconfont iconwenben',
         // 给每个组件配置默认样式
         defaultStyle: {
-          height: 40
+          width: 100,
+          height: 40,
+          borderRadius: 4,
+          borderWidth: 1,
+          borderColor: '#dcdfe6',
+          backgroundColor: '#ffffff'
         }
       }
     ]

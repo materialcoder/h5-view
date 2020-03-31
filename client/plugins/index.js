@@ -2,15 +2,17 @@
 
 import Text from './text'
 import Image from './image'
+import Button from './button'
 
 // 所有组件列表
 const components = [
   Text,
-  Image
+  Image,
+  Button
 ]
 
 // 定义install方法，接收Vue作为参数
-const install = function (Vue) {
+const install = function(Vue) {
   // 判断是否安装，安装过就不继续往下执行
   if (install.installed) return
   install.installed = true
