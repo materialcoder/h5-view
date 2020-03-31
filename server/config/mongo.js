@@ -8,8 +8,6 @@ const options = {
 }
 
 const url = `mongodb://${config.db.user}:${config.db.pass}@${config.db.servername}:${config.db.port}/${config.db.DATABASE}`
-console.log(url)
-
 
 module.exports = {
   connect: () => {
