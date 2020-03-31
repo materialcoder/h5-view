@@ -14,12 +14,12 @@ export default [
       },
       {
         // 组件名称，与组件库名称一致
-        elName: 'h-text',
-        title: '文字',
+        elName: 'h-image',
+        title: '图片',
         icon: 'iconfont iconwenben',
         // 给每个组件配置默认样式
         defaultStyle: {
-          height: 40
+          height: 200
         }
       },
       {

@@ -13,23 +13,23 @@ const devServer = {
   }
 }
 
-module.exports = {
+module.exports = {
   devServer: devServer,
   // 输出文件目录
   assetsDir: 'static',
-  pages: {        
-    index: {            
-      entry: "client/main.js",
+  pages: {
+    index: {
+      entry: "client/main.js",
 
-    }    
+    }
   },
   // 扩展 webpack 配置
   chainWebpack: config => {
     config.resolve.alias
-			.set('@', path.resolve('client'))
-			.set('@client', path.resolve('client'))
-			.set('@plugins', path.resolve('plugins'))
-			.set('@server', path.resolve('server'))
+      .set('@', path.resolve('client'))
+      .set('@client', path.resolve('client'))
+      .set('@plugins', path.resolve('plugins'))
+      .set('@server', path.resolve('server'))
     config.module
       .rule('js')
       .include.add(/engine-templates/).end()

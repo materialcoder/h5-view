@@ -1,10 +1,12 @@
 // 组件库入口
 
 import Text from './text'
+import Image from './image'
 
 // 所有组件列表
 const components = [
-  Text
+  Text,
+  Image
 ]
 
 // 定义install方法，接收Vue作为参数
@@ -27,7 +29,6 @@ components.forEach(item => {
 })
 
 export {
-  Text,
   regist_components_obj
 }
 

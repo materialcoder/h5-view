@@ -1,22 +1,31 @@
 <template>
-  <el-dialog class="dialog-image-select" :visible.sync="showDialog" title="选择图片">
+  <el-dialog class="dialog-image-select"
+             :visible.sync="showDialog"
+             title="选择图片">
     <div class="image-libs-wrapper">
-      <el-upload
-        class="select-image-upload"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        accept="jpg,png,gif"
-        :show-file-list="false"
-        :before-upload="beforeUpload">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg,png,gif文件，且不超过2Mb</div>
+      <el-upload class="select-image-upload"
+                 action="https://jsonplaceholder.typicode.com/posts/"
+                 accept="jpg,jpeg,png,gif"
+                 :show-file-list="false"
+                 :before-upload="beforeUpload">
+        <el-button size="small"
+                   type="primary">点击上传</el-button>
+        <div slot="tip"
+             class="el-upload__tip">只能上传jpg,jpeg,png,gif文件，且不超过2Mb</div>
       </el-upload>
       <!-- <el-button @click="deleteAll">删除</el-button> -->
-      <div class="image-list-wrapper" v-if="imageList.length">
-        <div class="img-item" v-for="item in imageList" :key="item._id" @click="handleImageClick(item.url)">
-          <img :src="item.url" alt="">
+      <div class="image-list-wrapper"
+           v-if="imageList.length">
+        <div class="img-item"
+             v-for="item in imageList"
+             :key="item._id"
+             @click="handleImageClick(item.url)">
+          <img :src="item.url"
+               alt="">
         </div>
       </div>
-      <div class="image-list-wrapper text-center" v-else>暂无数据</div>
+      <div class="image-list-wrapper text-center"
+           v-else>暂无数据</div>
     </div>
   </el-dialog>
 </template>
@@ -54,7 +63,7 @@ export default {
       }
       let temp1 = file.name.split('.')
       let temp = temp1[temp1.length - 1]
-      if (!['jpg', 'png', 'gif'].includes(temp)) {
+      if (!['jpg', 'jpeg', 'png', 'gif'].includes(temp)) {
         this.$message.error('请上传jpg/png/gif文件')
         return
       }
@@ -72,7 +81,7 @@ export default {
         if (res.code === 200) {
           this.imageList.unshift(res.body)
         }
-      }).catch(() => {})
+      }).catch(() => { })
     },
     // 获取我的所有图片
     getMyImages() {
@@ -95,50 +104,50 @@ export default {
 </script>
 
 <style lang="scss">
-  .dialog-image-select {
-    .el-dialog__body {
-      padding: 0 10px 20px;
+.dialog-image-select {
+  .el-dialog__body {
+    padding: 0 10px 20px;
+  }
+  .select-image-upload {
+    display: flex;
+    .el-upload.el-upload--text {
+      margin-right: 20px;
     }
-    .select-image-upload {
-      display: flex;
-      .el-upload.el-upload--text {
-        margin-right: 20px;
-      }
-      .el-upload__tip {
-        margin-top: 0;
-        line-height: 32px;
-      }
-    }
-    .image-list-wrapper {
-      min-height: 300px;
-      max-height: 500px;
-      overflow: auto;
-      padding: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      .img-item {
-        width: 140px;
-        height: 140px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        margin: 10px;
-        background: #eee;
-        cursor: pointer;
-        img {
-          width: 100%;
-        }
-        &:hover {
-          box-shadow: 0 0 16px 0 rgba(0, 0, 0, .16);
-          transform: translate3d(0, -2px, 0)
-        }
-      }
-    }
-    .text-center {
-      align-items: center;
-      justify-content: center;
+    .el-upload__tip {
+      margin-top: 0;
+      line-height: 32px;
     }
   }
+  .image-list-wrapper {
+    min-height: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    .img-item {
+      width: 140px;
+      height: 140px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin: 10px;
+      background: #eee;
+      cursor: pointer;
+      img {
+        width: 100%;
+      }
+      &:hover {
+        box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.16);
+        transform: translate3d(0, -2px, 0);
+      }
+    }
+  }
+  .text-center {
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>
